@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/22 18:32:34 by dcolucci         ###   ########.fr       */
+/*   Created: 2023/06/22 18:10:03 by dcolucci          #+#    #+#             */
+/*   Updated: 2023/06/22 18:14:45 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
+#include "../../include/cub3D.h"
 
-void	ft_program_init(t_program *p)
+void	ft_free_mat(char **mat)
 {
-	p->map = 0;
+	int	i;
+
+	i = 0;
+	if (!mat)
+		return ;
+	while (mat[i])
+		free(mat[i++]);
+	free(mat);
 }
 
-int	main(int ac, char **av)
+void	ft_free_program(t_program *p)
 {
-	t_program	p;
-
-	if (ac == 2)
-	{
-		ft_program_init(&p);
-		ft_map_checker(&p, av[1]);
-		ft_print_mat(p.map, false);
-		ft_free_program(&p);
-	}
+	ft_free_mat(p->map);
 }

@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dcolucci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/22 18:32:34 by dcolucci         ###   ########.fr       */
+/*   Created: 2022/10/11 13:49:54 by dcolucci          #+#    #+#             */
+/*   Updated: 2022/10/14 18:52:27 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
+#include"libft.h"
 
-void	ft_program_init(t_program *p)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	p->map = 0;
-}
+	t_list	*tmp;
 
-int	main(int ac, char **av)
-{
-	t_program	p;
-
-	if (ac == 2)
+	tmp = *lst;
+	if (!(*lst))
 	{
-		ft_program_init(&p);
-		ft_map_checker(&p, av[1]);
-		ft_print_mat(p.map, false);
-		ft_free_program(&p);
+		*lst = ft_lstnew(new->content);
+	}
+	else
+	{
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new;
+		new->next = NULL;
 	}
 }

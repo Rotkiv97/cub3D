@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dcolucci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/22 18:32:34 by dcolucci         ###   ########.fr       */
+/*   Created: 2022/10/05 15:58:40 by dcolucci          #+#    #+#             */
+/*   Updated: 2022/10/08 21:49:31 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
+#include"libft.h"
 
-void	ft_program_init(t_program *p)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	p->map = 0;
-}
+	char		*d;
+	const char	*s;
+	size_t		i;
 
-int	main(int ac, char **av)
-{
-	t_program	p;
-
-	if (ac == 2)
+	i = 0;
+	s = src;
+	d = dest;
+	while (i < n)
 	{
-		ft_program_init(&p);
-		ft_map_checker(&p, av[1]);
-		ft_print_mat(p.map, false);
-		ft_free_program(&p);
+		d[i] = s[i];
+		i++;
 	}
+	return (dest);
 }

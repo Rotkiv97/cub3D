@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dcolucci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/22 18:32:34 by dcolucci         ###   ########.fr       */
+/*   Created: 2022/10/06 15:55:33 by dcolucci          #+#    #+#             */
+/*   Updated: 2022/10/15 15:28:04 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
-
-void	ft_program_init(t_program *p)
+char	*ft_strrchr(const char *s, int c)
 {
-	p->map = 0;
-}
+	int				i;
+	char			*p;
+	unsigned char	u;
 
-int	main(int ac, char **av)
-{
-	t_program	p;
-
-	if (ac == 2)
+	p = 0;
+	i = 0;
+	u = (unsigned char)c;
+	while (s[i])
 	{
-		ft_program_init(&p);
-		ft_map_checker(&p, av[1]);
-		ft_print_mat(p.map, false);
-		ft_free_program(&p);
+		if (s[i] == u)
+			p = (char *)&s[i];
+		i++;
 	}
+	if (c == '\0')
+		return ((char *)&s[i]);
+	return (p);
 }

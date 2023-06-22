@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dcolucci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/22 18:32:34 by dcolucci         ###   ########.fr       */
+/*   Created: 2022/10/09 21:31:12 by dcolucci          #+#    #+#             */
+/*   Updated: 2022/10/13 18:41:46 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
+#include"libft.h"
 
-void	ft_program_init(t_program *p)
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 {
-	p->map = 0;
-}
+	unsigned int	i;
+	char			*p;
 
-int	main(int ac, char **av)
-{
-	t_program	p;
-
-	if (ac == 2)
+	i = 0;
+	p = (char *)malloc((char)(ft_strlen(s) + 1));
+	while (s[i])
 	{
-		ft_program_init(&p);
-		ft_map_checker(&p, av[1]);
-		ft_print_mat(p.map, false);
-		ft_free_program(&p);
+		p[i] = (*f)(i, s[i]);
+		i++;
 	}
+	p[i] = '\0';
+	return (p);
 }

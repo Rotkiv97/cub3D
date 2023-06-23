@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/22 18:32:34 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:50:44 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,5 @@ int	main(int ac, char **av)
 	{
 		ft_program_init(&p);
 		ft_map_checker(&p, av[1]);
-		ft_print_mat(p.map, false);
-		ft_free_program(&p);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/22 18:31:52 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/23 19:42:28 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,36 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
+typedef struct s_vector
+{
+	int		x;
+	int		y;
+}t_int_vector;
+
+typedef struct s_fvector
+{
+	float		x;
+	float		y;
+}t_float_vector;
+
+typedef struct s_player
+{
+	t_float_vector	pos;
+	t_float_vector	dir;
+	int				cam_plane;
+}t_player;
+
 typedef struct s_program
 {
-	char	**map;
+	char			**map;
+	int				cell_size;
+	t_int_vector	map_size;
+	t_player		player;
 }t_program;
 
 /*	map_checker.c	*/
 
-void	ft_map_checker(t_program *p, char *map_path);
+void	ft_map_checker(t_program *p, char *file_path);
 
 /*	project_path/srcs/utils/utils1.c	*/
 

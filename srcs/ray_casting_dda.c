@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
-
+#include "cub3D.h"
+/*
 float	ft_distance_collision(t_program *p)
 {
 	bool		collision;
@@ -43,3 +43,4 @@ void	ft_ray_casting(t_program *p)
 		i++;
 	}
 }
+*/

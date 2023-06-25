@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3D.h"
+#include "cub3D.h"
 
 void	ft_print_mat(char **mat, bool new_line)
 {

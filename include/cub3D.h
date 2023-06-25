@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include "../srcs/get_next_line/get_next_line_bonus.h"
 
+# include <math.h>
 # include <stdbool.h>
 # include <sys/types.h>
 # include <sys/stat.h>

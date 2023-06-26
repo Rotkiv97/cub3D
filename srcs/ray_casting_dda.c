@@ -6,11 +6,28 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/23 19:45:39 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/26 18:19:09 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+bool	ft_check_collision(t_program *p, t_int_vector map_check)
+{
+	int		x;
+	int		y;
+	bool	collision;
+	
+	collision = false;
+	x = map_check.x;
+	y = map_check.y;
+	if(x >= 0 && y >= 0)
+	{
+		if (p->map[y][x] == '1')
+			collision = true;
+	}
+	return (collision);
+}
 
 float	ft_distance_collision(t_program *p, t_float_vector ray_dir)
 {
@@ -24,12 +41,28 @@ float	ft_distance_collision(t_program *p, t_float_vector ray_dir)
 	t_float_vector	ray_start;
 	t_float_vector	collision_point;
 
+	(void)collision_point;
 	ray_start = p->player.pos;
 	map_check = (t_int_vector){(int)p->player.pos.x, (int)p->player.pos.y};	//check della casella in cui sono
-	scaling_factor.x = (float)sqrt(1 + ((ray_dir.y) / (ray_dir.x)) * \
+	if (ray_dir.x == 0)
+	{
+		scaling_factor.x = 1e30;
+	}
+	else
+	{
+		scaling_factor.x = (float)sqrt(1 + ((ray_dir.y) / (ray_dir.x)) * \
 	((ray_dir.y) / (ray_dir.x)));
-	scaling_factor.y = (float)sqrt(1 + ((ray_dir.x) / (ray_dir.y)) * \
+	}
+	if (ray_dir.y == 0)
+	{
+		scaling_factor.y = 1e30;
+	}
+	else
+	{
+		scaling_factor.y = (float)sqrt(1 + ((ray_dir.x) / (ray_dir.y)) * \
 	((ray_dir.x) / (ray_dir.y)));
+	}
+	
 	if (ray_dir.x < 0)
 	{
 		step.x = -1;
@@ -53,6 +86,7 @@ float	ft_distance_collision(t_program *p, t_float_vector ray_dir)
 	}
 
 	collision = false;
+	distance = 0;
 	dist_max = 100;
 	while (!collision && distance < dist_max)
 	{
@@ -69,9 +103,10 @@ float	ft_distance_collision(t_program *p, t_float_vector ray_dir)
 			ray_length1D.y += scaling_factor.y;
 		}
 
-		if (ft_check_collision(map_check))
+		if (ft_check_collision(p, map_check))
 		{
 			collision = true;
+			break ;
 		}
 	}
 	if (collision)
@@ -84,12 +119,25 @@ float	ft_distance_collision(t_program *p, t_float_vector ray_dir)
 
 t_float_vector	ft_ray_direction(int ray, t_program *p)
 {
+	t_float_vector	ray_dir;
+	t_float_vector	p_dir;
+	double			ray_angle;
 
+	p_dir = p->player.dir;
+	ray_angle = ((float)ray / p->player.n_rays * p->fov) * PI / 180;
+	//printf("ray_angle : %f\n", ray_angle);
+	ray_dir.x = cos(ray_angle) * p_dir.x - sin(ray_angle) * p_dir.y;
+	ray_dir.y = sin(ray_angle) * p_dir.x + cos(ray_angle) * p_dir.y;
+	//printf("Ray_dir is x : %f, y : %f\n", ray_dir.x, ray_dir.y);
+ 	return (ray_dir);
 }
 
 void	ft_draw_vertical_line(t_program *p, float distance, \
 t_float_vector ray_dir)
 {
+	(void)p;
+	(void)distance;
+	(void)ray_dir;
 }
 
 void	ft_ray_casting(t_program *p)
@@ -98,12 +146,14 @@ void	ft_ray_casting(t_program *p)
 	int				rays;
 	float			length;
 
-	rays = p->player.cam_plane;
+	(void)length;
+	rays = p->player.n_rays;
 	while (rays)
 	{
 		ray_dir = ft_ray_direction(rays, p);
 		length = ft_distance_collision(p, ray_dir);
-		ft_draw_vertical_line(p, length, ray_dir);
+		printf("the length of %d ray is %f\n", rays, length);
+		//ft_draw_vertical_line(p, length, ray_dir);
 		rays--;
 	}
 }

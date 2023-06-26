@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/23 19:14:59 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/26 13:19:02 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ char	**ft_copy_file(char *file_path)
 
 void	ft_map_checker(t_program *p, char *file_path)
 {
-	p->map = ft_copy_file(file_path);
-	if (!(p->map))
+	p->file = ft_copy_file(file_path);
+	if (!(p->file))
 	{
-		ft_putstrerr("Cannot open map");
+		ft_putstrerr("Cannot open file");
+		ft_putstrerr(file_path);
 		exit(2);
 	}
 	/* ft_check_char(p->map);

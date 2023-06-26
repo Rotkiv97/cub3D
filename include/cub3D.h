@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/26 18:27:14 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/26 23:18:08 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/libft.h"
 # include "../srcs/get_next_line/get_next_line_bonus.h"
+# include "mlx.h"
 
 # include <math.h>
 # include <stdbool.h>
@@ -23,8 +24,11 @@
 # include <fcntl.h>
 
 # define PI 3.1415926535
+
 # define FOV 180
-# define RAYS 100
+# define RAYS 1920
+# define HEIGHT	1080
+# define WIDTH 1920
 
 typedef struct s_vector
 {
@@ -47,6 +51,8 @@ typedef struct s_player
 
 typedef struct s_program
 {
+	void			*mlx;
+	void			*window;
 	char			**map;
 	char			**file;
 	int				cell_size;

@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/26 18:19:09 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/26 23:15:34 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ float	ft_distance_collision(t_program *p, t_float_vector ray_dir)
 	{
 		collision_point.x = ray_start.x + ray_dir.x * distance;
 		collision_point.y = ray_start.y + ray_dir.y * distance;
+		//printf("collision point is x : %f |  y : %f\n", collision_point.x, collision_point.y);
 	}
 	return (distance);
 }
@@ -125,19 +126,26 @@ t_float_vector	ft_ray_direction(int ray, t_program *p)
 
 	p_dir = p->player.dir;
 	ray_angle = ((float)ray / p->player.n_rays * p->fov) * PI / 180;
-	//printf("ray_angle : %f\n", ray_angle);
 	ray_dir.x = cos(ray_angle) * p_dir.x - sin(ray_angle) * p_dir.y;
 	ray_dir.y = sin(ray_angle) * p_dir.x + cos(ray_angle) * p_dir.y;
-	//printf("Ray_dir is x : %f, y : %f\n", ray_dir.x, ray_dir.y);
  	return (ray_dir);
 }
 
-void	ft_draw_vertical_line(t_program *p, float distance, \
-t_float_vector ray_dir)
+void	ft_draw_vertical_line(t_program *p, float distance, int ray)
 {
-	(void)p;
-	(void)distance;
-	(void)ray_dir;
+	int		pixel;
+	int		height;
+	int		i;
+
+	i = 0;
+	height = (int)((distance * 300) / 3);
+	pixel = (int)(((float)ray / (float)p->player.n_rays) * (float)WIDTH);
+	printf("pixel : %d\n", pixel);
+	while (i < height)
+	{
+		mlx_pixel_put(p->mlx, p->window, pixel,  ((HEIGHT - height) / 2) + i, 0x00568223);
+		i++;
+	}
 }
 
 void	ft_ray_casting(t_program *p)
@@ -153,7 +161,7 @@ void	ft_ray_casting(t_program *p)
 		ray_dir = ft_ray_direction(rays, p);
 		length = ft_distance_collision(p, ray_dir);
 		printf("the length of %d ray is %f\n", rays, length);
-		//ft_draw_vertical_line(p, length, ray_dir);
+		ft_draw_vertical_line(p, length, rays);
 		rays--;
 	}
 }

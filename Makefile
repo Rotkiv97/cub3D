@@ -24,7 +24,7 @@ INCDIR := include
 INCLUDES := -I$(INCDIR)
 
 # Libraries
-LINKS = -lX11 -lXext -lm libft/libft.a
+LINKS = minilibx-linux/libmlx.a libft/libft.a -lX11 -lXext -lm 
 
 all: $(NAME)
 

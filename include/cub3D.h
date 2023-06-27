@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/26 23:18:08 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:28:25 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define PI 3.1415926535
 
 # define FOV 180
-# define RAYS 1920
+# define RAYS 1000
 # define HEIGHT	1080
 # define WIDTH 1920
 
@@ -42,6 +42,14 @@ typedef struct s_fvector
 	float	y;
 }t_float_vector;
 
+typedef struct	s_img{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}t_img;
+
 typedef struct s_player
 {
 	t_float_vector	pos;
@@ -53,6 +61,7 @@ typedef struct s_program
 {
 	void			*mlx;
 	void			*window;
+	t_img			*screen;
 	char			**map;
 	char			**file;
 	int				cell_size;

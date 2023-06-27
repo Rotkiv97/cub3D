@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/26 13:19:02 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:03:15 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,11 @@ void	ft_check_char(t_program *p)
 	int		x;
 	int		y;
 	char	*chars;
+	int		flag;
 
 	y = -1;
 	chars = "10 NPE\n";
-	p->N_flag = 0;
+	flag = 0;
 	while (p->map[++y] != NULL)
 	{
 		x = 0;
@@ -89,16 +90,16 @@ void	ft_check_char(t_program *p)
 			if (ft_in_set(p->map[y][x], chars))
 			{
 				if (ft_in_set(p->map[y][x], "N") == 1)
-					p->N_flag += 1;
+					flag += 1;
 				x++;
 			}
 			else
 				ft_exit("cogline Metti i caratteri giusti");
 		}
 	}
-	if (p->N_flag == 0)
+	if (flag == 0)
 		ft_exit("sei un troglodita metti il punto o di inizio");
-	else if (p->N_flag > 1)
+	else if (flag > 1)
 		ft_exit("allora non ci intendiamo metti solo 1 span, e impiccati");
 }
 
@@ -200,7 +201,7 @@ void	ft_check_map_last(char **map)
 	}
 }
 
-void	ft_map_checker(t_program *p, char *map_path)
+void	ft_map_checker(t_program *p, char *file_path)
 {
 	p->file = ft_copy_file(file_path);
 	if (!(p->file))
@@ -209,9 +210,9 @@ void	ft_map_checker(t_program *p, char *map_path)
 		ft_putstrerr(file_path);
 		exit(2);
 	}
-	ft_check_map_file(p);
+	/* ft_check_map_file(p);
 	ft_check_char(p);
 	ft_check_walls(p->map);
 	ft_check_map_last(p->map);
-	ft_print_mat(p->map, false);
+	ft_print_mat(p->map, false); */
 }

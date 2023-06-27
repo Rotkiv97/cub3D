@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/26 23:15:34 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:41:37 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,15 +137,12 @@ void	ft_draw_vertical_line(t_program *p, float distance, int ray)
 	int		height;
 	int		i;
 
+	(void)i;
+	(void)height;
 	i = 0;
 	height = (int)((distance * 300) / 3);
 	pixel = (int)(((float)ray / (float)p->player.n_rays) * (float)WIDTH);
 	printf("pixel : %d\n", pixel);
-	while (i < height)
-	{
-		mlx_pixel_put(p->mlx, p->window, pixel,  ((HEIGHT - height) / 2) + i, 0x00568223);
-		i++;
-	}
 }
 
 void	ft_ray_casting(t_program *p)

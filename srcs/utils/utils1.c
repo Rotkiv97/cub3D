@@ -6,18 +6,37 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:25:08 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/22 16:28:53 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/26 14:11:54 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3D.h"
+#include "cub3D.h"
 
-void	ft_putstrerr(char *s)
+int	ft_mat_len(char **mat)
 {
-	ft_putstr_fd("Error\n", STDERR_FILENO);
-	if (s)
+	int	i;
+
+	i = 0;
+	if (!mat)
+		return (0);
+	while (mat[i])
+		i++;
+	return (i);
+}
+
+char	**ft_copy_mat(char **mat)
+{
+	int		i;
+	char	**cpy;
+
+	if (!mat)
+		return (0);
+	cpy = (char **) malloc (sizeof(char *) * (ft_mat_len(mat) + 1));
+	i = 0;
+	while (mat[i])
 	{
-		ft_putstr_fd(s, STDERR_FILENO);
-		ft_putchar_fd('\n', STDERR_FILENO);
+		cpy[i] = ft_strdup(mat[i]);
+		i++;
 	}
+	return(cpy);
 }

@@ -6,13 +6,13 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/22 18:23:33 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/26 13:19:02 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
+#include "cub3D.h"
 
-char	**ft_copy_map(char *map_path)
+char	**ft_copy_file(char *file_path)
 {
 	char	**file;
 	int		lines;
@@ -20,7 +20,7 @@ char	**ft_copy_map(char *map_path)
 	char	c;
 
 	lines = 1;
-	fd = open (map_path, O_RDONLY);
+	fd = open (file_path, O_RDONLY);
 	if (fd == -1)
 		return (0);
 	while (read(fd, &c, 1) > 0)
@@ -29,7 +29,7 @@ char	**ft_copy_map(char *map_path)
 	close(fd);
 	file = (char **) malloc (sizeof(char *) * (lines + 1));
 	lines = 0;
-	fd = open(map_path, O_RDONLY);
+	fd = open(file_path, O_RDONLY);
 	file[lines] = get_next_line(fd);
 	while (file[lines++])
 		file[lines] = get_next_line(fd);
@@ -202,10 +202,11 @@ void	ft_check_map_last(char **map)
 
 void	ft_map_checker(t_program *p, char *map_path)
 {
-	p->file = ft_copy_map(map_path);
+	p->file = ft_copy_file(file_path);
 	if (!(p->file))
 	{
-		ft_putstrerr("Cannot open map");
+		ft_putstrerr("Cannot open file");
+		ft_putstrerr(file_path);
 		exit(2);
 	}
 	ft_check_map_file(p);

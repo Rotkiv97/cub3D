@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/22 18:31:52 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/26 23:18:08 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,69 @@
 
 # include "../libft/libft.h"
 # include "../srcs/get_next_line/get_next_line_bonus.h"
+# include "mlx.h"
 
+# include <math.h>
 # include <stdbool.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 
+# define PI 3.1415926535
+
+# define FOV 180
+# define RAYS 1920
+# define HEIGHT	1080
+# define WIDTH 1920
+
+typedef struct s_vector
+{
+	int		x;
+	int		y;
+}t_int_vector;
+
+typedef struct s_fvector
+{
+	float	x;
+	float	y;
+}t_float_vector;
+
+typedef struct s_player
+{
+	t_float_vector	pos;
+	t_float_vector	dir;
+	int				n_rays;
+}t_player;
+
 typedef struct s_program
 {
-	char	**map;
+	void			*mlx;
+	void			*window;
+	char			**map;
+	char			**file;
+	int				cell_size;
+	float			fov;
+	t_int_vector	map_size;
+	t_player		player;
 }t_program;
 
-/*	map_checker.c	*/
+/*	project_path/map_checker.c	*/
 
-void	ft_map_checker(t_program *p, char *map_path);
+void	ft_map_checker(t_program *p, char *file_path);
+
+/*	project_path/srcs/ray_casting_dda.c	*/
+
+void	ft_ray_casting(t_program *p);
 
 /*	project_path/srcs/utils/utils1.c	*/
 
-void	ft_putstrerr(char *s);
+char	**ft_copy_mat(char **mat);
 
 /*	project_path/srcs/utils/utils_print.c	*/
 
+void	ft_putstrerr(char *s);
 void	ft_print_mat(char **mat, bool new_line);
+
 
 /*	project_path/srcs/utils/utils_free.c	*/
 

@@ -28,3 +28,17 @@ void	ft_free_program(t_program *p)
 {
 	ft_free_mat(p->map);
 }
+
+
+void	ft_free_exit(char *error, char **str)
+{
+	printf("\033[31m%s\033[0m\n", error);
+	free(str);
+	exit(0);
+}
+
+void	ft_exit(char *error)
+{
+	printf("\033[31m%s\033[0m\n", error);
+	exit(0);
+}

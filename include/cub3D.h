@@ -72,6 +72,8 @@ void	ft_ray_casting(t_program *p);
 /*	project_path/srcs/utils/utils1.c	*/
 
 char	**ft_copy_mat(char **mat);
+int	ft_in_set(char c, char *str);
+
 
 /*	project_path/srcs/utils/utils_print.c	*/
 
@@ -83,5 +85,10 @@ void	ft_print_mat(char **mat, bool new_line);
 
 void	ft_free_mat(char **mat);
 void	ft_free_program(t_program *p);
+void	ft_free_exit(char *error, char **str);
+void	ft_exit(char *error);
+
+
+
 
 #endif

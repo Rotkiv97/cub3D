@@ -32,7 +32,7 @@ void	ft_print_mat(char **mat, bool new_line)
 	if (new_line == true)
 		while (mat[i])
 			printf("%s\n", mat[i++]);
-	else
+	 else
 		while (mat[i])
 			printf("%s", mat[i++]);
 }

@@ -40,3 +40,18 @@ char	**ft_copy_mat(char **mat)
 	}
 	return(cpy);
 }
+
+int	ft_in_set(char c, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+

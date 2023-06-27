@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/27 15:03:15 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:46:18 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_check_map_file(t_program *p)
 	{
 		if (p->file[y][0] == ' ' || p->file[y][0] == '1')
 		{
-			while (ft_strncmp(p->file[y + k], "\n", 2) && p->file[y + k] != 0)
+			while (p->file[y + k] != 0 && ft_strncmp(p->file[y + k], "\n", 2))
 				k++;
 			break ;
 		}
@@ -146,14 +146,14 @@ void	ft_check_map_last_01(char **map, int x, int y)
 		ft_exit("invalid map bordi inferiori chars");
 	else if (!map[y + 1][x] && ft_strlen(map[y]) > ft_strlen(map[y + 1]))
 		ft_exit("invalid map bordi inferiori chars");
-	else
-		x++;
 }
 
-void	ft_check_map_last_00(char **map, int y, int x, int size)
+void	ft_check_map_last_00(char **map, int y, int size)
 {
 	char	*chars;
+	int		x;
 
+	x = 0;
 	chars = "NP0";
 	while (map[y][x])
 	{
@@ -187,8 +187,8 @@ void	ft_check_map_last(char **map)
 	while (map[++y])
 	{
 		x = 0;
-		if (!map[size - 1])
-			ft_check_map_last_00(map, y, x, size);
+		if ( &map[y] != &map[size - 1])
+			ft_check_map_last_00(map, y, size);
 		else if (map[size - 1])
 		{
 			while (map[size - 1][x])
@@ -210,9 +210,9 @@ void	ft_map_checker(t_program *p, char *file_path)
 		ft_putstrerr(file_path);
 		exit(2);
 	}
-	/* ft_check_map_file(p);
+	ft_check_map_file(p);
 	ft_check_char(p);
 	ft_check_walls(p->map);
 	ft_check_map_last(p->map);
-	ft_print_mat(p->map, false); */
+	ft_print_mat(p->map, false);
 }

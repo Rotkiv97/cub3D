@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/27 15:03:50 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:36:59 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_program_init(t_program *p, t_player *pl, t_img *screen, char *file_path)
 	ft_map_checker(p, file_path);
 	p->map = (char **) malloc (sizeof(char *) * 6);
 	p->map[0] = ft_strdup("111111");
-	p->map[1] = ft_strdup("110101");
+	p->map[1] = ft_strdup("1101 01");
 	p->map[2] = ft_strdup("100001");
 	p->map[3] = ft_strdup("100N01");
 	p->map[4] = ft_strdup("111111");
@@ -45,6 +45,7 @@ void	ft_program_init(t_program *p, t_player *pl, t_img *screen, char *file_path)
 	ft_img_init(p, screen);
 	ft_player_init(pl);
 	p->player = *pl;
+	p->screen = *screen;
 }
 
 int	main(int ac, char **av)

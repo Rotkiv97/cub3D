@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/27 14:28:25 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:36:39 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_program
 {
 	void			*mlx;
 	void			*window;
-	t_img			*screen;
+	t_img			screen;
 	char			**map;
 	char			**file;
 	int				cell_size;

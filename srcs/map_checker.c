@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/27 15:46:18 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/27 18:10:11 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ void	ft_check_char(t_program *p)
 	y = -1;
 	chars = "10 NPE\n";
 	flag = 0;
+	//printf("mat\n");
+	//ft_print_mat(p->map, false);
+	//printf("mat\n");
 	while (p->map[++y] != NULL)
 	{
 		x = 0;
@@ -117,7 +120,7 @@ void	ft_check_walls(char **map)
 	y = 0; 
 	while (map[y])
 	{
-		tmp[y] = ft_strtrim(map[y], " \n");
+		tmp[y] = ft_strtrim(map[y], " \t\n");
 		if (tmp[y][0] != '1')
 			ft_free_exit("invalid map asse y sinistra", tmp);
 		else if (tmp[y][ft_strlen(tmp[y]) - 1] != '1')
@@ -187,9 +190,9 @@ void	ft_check_map_last(char **map)
 	while (map[++y])
 	{
 		x = 0;
-		if ( &map[y] != &map[size - 1])
+		if (&map[y] != &map[size - 1])
 			ft_check_map_last_00(map, y, size);
-		else if (map[size - 1])
+		else if (&map[y] == &map[size - 1])
 		{
 			while (map[size - 1][x])
 			{

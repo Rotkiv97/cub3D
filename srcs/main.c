@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/28 19:58:19 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/29 15:34:49 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,18 @@ void	ft_program_init(t_program *p, t_player *pl, t_img *screen, char *file_path)
 	p->fov = FOV;
 	p->mlx = mlx_init();
 	p->window = mlx_new_window(p->mlx, WIDTH, HEIGHT, "cub3D");
+	p->pause = 0;
+	mlx_mouse_get_pos(p->mlx, p->window, &p->mouse.x, &p->mouse.y);
 	ft_img_init(p, screen);
 	p->player = *pl;
 	p->screen = *screen;
+}
+
+int	ft_close(t_program *p)
+{
+	(void)p;
+	exit(0);
+	return (0);
 }
 
 int	main(int ac, char **av)
@@ -61,7 +70,8 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		ft_program_init(&p, &pl, &screen, av[1]);
-		mlx_key_hook(p.window, *ft_input, &p);
+		mlx_hook(p.window, 2, 1L << 0, *ft_input, &p);
+		mlx_hook(p.window, 17, 0, ft_close, &p);
 		mlx_loop_hook(p.mlx, *ft_update, &p);
 		mlx_loop(p.mlx);
 	}

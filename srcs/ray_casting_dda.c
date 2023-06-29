@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/28 21:26:48 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:47:40 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ bool	ft_check_collision(t_program *p, t_ivector map_check)
 		if (p->map[y][x] == '1')
 			collision = true;
 	}
+	else if (x < 0 || y < 0)
+		collision = true;
 	return (collision);
 }
 
@@ -113,7 +115,7 @@ double	ft_distance_collision(t_program *p, t_dvector ray_dir)
 t_dvector	ft_ray_direction(int pixel, t_program *p)
 {
 	t_dvector	ray_dir;
-	double			cameraX;
+	double		cameraX;
 
 	cameraX = ((2 * (double)pixel) / (double)WIDTH) - 1;
 	ray_dir.x = p->player.dir.x + cameraX * p->player.cam_plane.x;

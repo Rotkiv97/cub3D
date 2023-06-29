@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/28 20:09:48 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/29 15:19:50 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@
 # define PI 3.1415926535
 
 # define FOV 0.66
-# define WIDTH 1280
-# define HEIGHT	720
+# define WIDTH 1920
+# define HEIGHT	1080
 # define UNIT_HEIGHT (HEIGHT / 1.2)
 
 # define MOVESPEED 0.2
 
 # define ESC 65307
+# define PAUSE 112
 # define W 119
 # define S 115
 # define A 97
@@ -88,8 +89,10 @@ typedef struct s_program
 	char			**map;
 	char			**file;
 	int				cell_size;
+	int				pause;
 	float			fov;
-	t_ivector	map_size;
+	t_ivector		map_size;
+	t_ivector		mouse;
 	t_player		player;
 }t_program;
 

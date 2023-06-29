@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 22:35:43 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/28 20:49:00 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:49:55 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,6 @@ void	ft_background(t_program *p)
 		i++;
 	}
 }
-
-/* int	ft_get_texture_color(t_dvector ray_dir)
-{
-	double	x;
-	double	y;
-	int		color;
-
-	return (color);
-} */
 
 void	ft_draw_vertical_line(t_program *p, double distance, int pixel, t_dvector ray_dir)
 {

@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/29 15:19:50 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/30 18:52:28 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@
 
 # define PI 3.1415926535
 
-# define FOV 0.66
+# define FOV 0.7
 # define WIDTH 1920
 # define HEIGHT	1080
 # define UNIT_HEIGHT (HEIGHT / 1.2)
 
-# define MOVESPEED 0.2
+# define MOVESPEED 0.1
+# define ROTSPEED 1
 
 # define ESC 65307
 # define PAUSE 112
@@ -45,6 +46,9 @@
 # define STEXT 0xFF8000
 # define WTEXT 0x7F00FF
 # define ETEXT 0xFF33FF
+
+# define FTEXT 0x112FA8
+# define CTEXT 0x66FFFF
 
 typedef struct s_vector
 {
@@ -85,63 +89,69 @@ typedef struct s_program
 {
 	void			*mlx;
 	void			*window;
-	t_img			screen;
 	char			**map;
 	char			**file;
 	int				cell_size;
 	int				pause;
-	float			fov;
+	double			fov;
+	t_img			screen;
 	t_ivector		map_size;
 	t_ivector		mouse;
+	t_dvector		ray_dir;
 	t_player		player;
 }t_program;
 
+/*	minimap.c	*/
+
+void	ft_draw_minimap(t_program *p);
+
 /*	draw_on_image.c	*/
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void	ft_black_screen(t_program *p);
-void	ft_background(t_program *p);
-void	ft_draw_vertical_line(t_program *p, double distance, int ray, t_dvector ray_dir);
+void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void		ft_black_screen(t_program *p);
+void		ft_background(t_program *p);
+void		ft_draw_vertical_line(t_program *p, double distance, int pixel, int side_coll);
 
 /*	project_path/map_checker.c	*/
 
-void	ft_map_checker(t_program *p, char *file_path);
+void		ft_map_checker(t_program *p, char *file_path);
 
 /*	project_path/event/ft_update.c	*/
 
-int		ft_update(void *program);
+int			ft_update(void *program);
 
 /*	project_path/event/key_hook.c	*/
 
-int		ft_input(int key, void *program);
+int			ft_input(int key, void *program);
 
 /*	project_path/srcs/ray_casting_dda.c	*/
 
-void	ft_ray_casting(t_program *p);
+double		ft_distance_collision(t_program *p, t_dvector ray_dir, int *side_coll);
+void		ft_ray_casting(t_program *p);
 
 /*	project_path/srcs/utils/utils_vector.c	*/
 
 t_dvector	ft_rotate_vector(t_dvector vector, double angle, bool clockwise);
-void			ft_rotate_visual(t_program *p, double angle, bool clockwise);
+void		ft_rotate_visual(t_program *p, double angle, bool clockwise);
 
 /*	project_path/srcs/utils/utils1.c	*/
 
-char	**ft_copy_mat(char **mat);
-int	ft_in_set(char c, char *str);
+char		**ft_copy_mat(char **mat);
+int			ft_in_set(char c, char *str);
 
 
 /*	project_path/srcs/utils/utils_print.c	*/
 
-void	ft_putstrerr(char *s);
-void	ft_print_vector(void *v, bool doubl);
-void	ft_print_mat(char **mat, bool new_line);
+void		ft_putstrerr(char *s);
+void		ft_print_vector(void *v, bool doubl);
+void		ft_print_mat(char **mat, bool new_line);
 
 
 /*	project_path/srcs/utils/utils_free.c	*/
 
-void	ft_free_mat(char **mat);
-void	ft_free_program(t_program *p);
-void	ft_free_exit(char *error, char **str);
-void	ft_exit(char *error);
+void		ft_free_mat(char **mat);
+void		ft_free_program(t_program *p);
+void		ft_free_exit(char *error, char **str);
+void		ft_exit(char *error);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/29 14:47:40 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/30 19:52:15 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	ft_check_collision(t_program *p, t_ivector map_check)
 	return (collision);
 }
 
-double	ft_distance_collision(t_program *p, t_dvector ray_dir)
+double	ft_distance_collision(t_program *p, t_dvector ray_dir, int *side_coll)
 {
 	bool		collision;
 	double		dist_max;
@@ -105,10 +105,11 @@ double	ft_distance_collision(t_program *p, t_dvector ray_dir)
 			break ;
 		}
 	}
-	if(side == 0)
+	 if(side == 0)
 		distance = fabs((map_check.x - ray_start.x + (1 - step.x) / 2) / ray_dir.x);
 	else
 		distance = fabs((map_check.y - ray_start.y + (1 - step.y) / 2) / ray_dir.y);
+	*side_coll = side;
 	return (distance);
 }
 
@@ -123,20 +124,23 @@ t_dvector	ft_ray_direction(int pixel, t_program *p)
  	return (ray_dir);
 }
 
+
 void	ft_ray_casting(t_program *p)
 {
-	t_dvector	ray_dir;
 	int			pixel;
 	double		distance;
+	int			side_coll[1];
 
 	pixel = 0;
+	*side_coll = -1;
 	ft_background(p);
 	while (pixel < WIDTH)
 	{
-		ray_dir = ft_ray_direction(pixel, p);
-		distance = ft_distance_collision(p, ray_dir);
-		ft_draw_vertical_line(p, distance, pixel, ray_dir);
+		p->ray_dir = ft_ray_direction(pixel, p);
+		distance = ft_distance_collision(p, p->ray_dir, side_coll);
+		ft_draw_vertical_line(p, distance, pixel, *side_coll);
 		pixel++;
 	}
+	ft_draw_minimap(p);
 	mlx_put_image_to_window(p->mlx, p->window, p->screen.img, 0, 0);
 }

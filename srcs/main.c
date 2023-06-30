@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/29 15:34:49 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/30 19:54:55 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_player_init(t_program *p, t_player *pl)
 		if (ft_strchr(map[i], 'N'))
 		{
 			pl->pos = (t_dvector){ft_strchr(map[i], 'N') - map[i] + 0.5 , i + 0.5};
-			ft_print_vector(&(pl->pos), true);
+			//ft_print_vector(&(pl->pos), true);
 			break ;
 		}
 		i++;

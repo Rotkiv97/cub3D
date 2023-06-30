@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 22:35:43 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/29 14:49:55 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/06/30 17:09:24 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_background(t_program *p)
 		j = 0;
 		while (j < WIDTH)
 		{
-			my_mlx_pixel_put(&(p->screen), j, i, 0x66FFFF);
+			my_mlx_pixel_put(&(p->screen), j, i, CTEXT);
 			j++;
 		}
 		i++;
@@ -62,22 +62,36 @@ void	ft_background(t_program *p)
 		j = 0;
 		while (j < WIDTH)
 		{
-			my_mlx_pixel_put(&(p->screen), j, i, 0x112FA8);
+			my_mlx_pixel_put(&(p->screen), j, i, FTEXT);
 			j++;
 		}
 		i++;
 	}
 }
 
-void	ft_draw_vertical_line(t_program *p, double distance, int pixel, t_dvector ray_dir)
+int		ft_set_wesn_color(t_program *p, int side_coll)
+{
+	int		color;
+
+	color = 0;
+	if (side_coll == 0 && p->ray_dir.x < 0)
+		color = ETEXT;
+	else if (side_coll == 0 && p->ray_dir.x >= 0)
+		color = WTEXT;
+	else if (side_coll == 1 && p->ray_dir.y > 0)
+		color = STEXT;
+	else if (side_coll == 1 && p->ray_dir.y <= 0)
+		color = NTEXT;
+	return (color);
+}
+
+void	ft_draw_vertical_line(t_program *p, double distance, int pixel, int side_coll)
 {
 	int			i;
 	int			height;
 	int			color;
-
 	i = 0;
-	(void)ray_dir;
-	color = NTEXT;
+	color = ft_set_wesn_color(p, side_coll);
 	height = abs((int)((double)HEIGHT / distance));
 	if (height >= HEIGHT)
 		height = HEIGHT;

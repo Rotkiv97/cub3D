@@ -6,9 +6,11 @@ STCDIR = srcs
 SRC =		srcs/main.c \
 			srcs/map_checker.c \
 			srcs/ray_casting_dda.c \
+			srcs/minimap.c \
+			srcs/read_file.c \
 			srcs/draw_on_image.c \
 			srcs/event/key_hook.c \
-			srcs/event/ft_update.c
+			srcs/event/ft_update.c \
 
 SRC_GNL =	srcs/get_next_line/get_next_line_bonus.c \
 			srcs/get_next_line/get_next_line_utils_bonus.c

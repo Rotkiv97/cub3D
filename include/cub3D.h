@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/30 18:52:28 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/01 19:39:12 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../libft/libft.h"
 # include "../srcs/get_next_line/get_next_line_bonus.h"
-# include "mlx.h"
+# include "../minilibx-linux/mlx.h"
 
 # include <math.h>
 # include <stdbool.h>
@@ -31,7 +31,7 @@
 # define UNIT_HEIGHT (HEIGHT / 1.2)
 
 # define MOVESPEED 0.1
-# define ROTSPEED 1
+# define ROTSPEED 1.2
 
 # define ESC 65307
 # define PAUSE 112
@@ -75,6 +75,8 @@ typedef struct	s_img{
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		height;
 }t_img;
 
 typedef struct s_player
@@ -95,6 +97,7 @@ typedef struct s_program
 	int				pause;
 	double			fov;
 	t_img			screen;
+	t_img			textures[4];
 	t_ivector		map_size;
 	t_ivector		mouse;
 	t_dvector		ray_dir;
@@ -129,6 +132,10 @@ int			ft_input(int key, void *program);
 double		ft_distance_collision(t_program *p, t_dvector ray_dir, int *side_coll);
 void		ft_ray_casting(t_program *p);
 
+/*	srcs/read_file.c	*/
+
+void		ft_read_file(t_program *p);
+
 /*	project_path/srcs/utils/utils_vector.c	*/
 
 t_dvector	ft_rotate_vector(t_dvector vector, double angle, bool clockwise);
@@ -136,6 +143,7 @@ void		ft_rotate_visual(t_program *p, double angle, bool clockwise);
 
 /*	project_path/srcs/utils/utils1.c	*/
 
+int			ft_mat_len(char **mat);
 char		**ft_copy_mat(char **mat);
 int			ft_in_set(char c, char *str);
 

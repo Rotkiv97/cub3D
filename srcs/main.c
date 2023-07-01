@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/30 19:54:55 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/01 19:44:30 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	ft_program_init(t_program *p, t_player *pl, t_img *screen, char *file_path)
 	p->mlx = mlx_init();
 	p->window = mlx_new_window(p->mlx, WIDTH, HEIGHT, "cub3D");
 	p->pause = 0;
+	ft_read_file(p);
 	mlx_mouse_get_pos(p->mlx, p->window, &p->mouse.x, &p->mouse.y);
 	ft_img_init(p, screen);
 	p->player = *pl;

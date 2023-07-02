@@ -144,11 +144,10 @@ int		ft_pick_texture(t_program *p, int side_coll)
 int	ft_color_texture(t_img texture, int x, int y)
 {
 	int		color;
+	char	*dst;
 
-	(void)texture;
-	(void)x;
-	(void)y;
-	color = 255;
+	dst = texture.addr + (y * texture.line_length + x * (texture.bits_per_pixel / 8));
+	color = *(unsigned int*)dst;
 	return (color);
 }
 
@@ -203,8 +202,8 @@ void	ft_ray_casting(t_program *p)
 	{
 		p->ray_dir = ft_ray_direction(pixel, p);
 		distance = ft_distance_collision(p, p->ray_dir, side_coll);
-		//ft_draw_texture(p, *side_coll, distance, pixel);
-		ft_draw_vertical_line(p, distance, pixel, *side_coll);
+		ft_draw_texture(p, *side_coll, distance, pixel);
+		//ft_draw_vertical_line(p, distance, pixel, *side_coll);
 		pixel++;
 	}
 	ft_draw_minimap(p);

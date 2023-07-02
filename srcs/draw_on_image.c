@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 22:35:43 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/30 17:09:24 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:10:49 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	ft_draw_vertical_line(t_program *p, double distance, int pixel, int side_co
 	int			i;
 	int			height;
 	int			color;
+
 	i = 0;
 	color = ft_set_wesn_color(p, side_coll);
 	height = abs((int)((double)HEIGHT / distance));

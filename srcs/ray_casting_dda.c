@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/01 20:09:52 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:54:17 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,71 @@ t_dvector	ft_ray_direction(int pixel, t_program *p)
  	return (ray_dir);
 }
 
+int		ft_pick_texture(t_program *p, int side_coll)
+{
+	int		text;
+
+	text = 0;
+	if (side_coll == 1 && p->ray_dir.y <= 0)
+		text = 0;
+	else if (side_coll == 1 && p->ray_dir.y > 0)
+		text = 1;
+	else if (side_coll == 0 && p->ray_dir.x < 0)
+		text = 2;
+	else if (side_coll == 0 && p->ray_dir.x >= 0)
+		text = 3;
+	
+	return (text);
+}
+
+int	ft_color_texture(t_img texture, int x, int y)
+{
+	int		color;
+
+	(void)texture;
+	(void)x;
+	(void)y;
+	color = 255;
+	return (color);
+}
+
+void	ft_draw_texture(t_program *p, int side, double distance, int pixel)
+{
+	double	wall_hit;
+	int		text_x;
+	int		text_y;
+	int		texture;
+	double	step;
+	double	height;
+	double	text_pos;
+	int		i;
+
+	texture = ft_pick_texture(p, side);
+	if (side == 0)
+		wall_hit = p->player.pos.y + distance * p->ray_dir.y;
+	else
+		wall_hit = p->player.pos.x + distance * p->ray_dir.x;
+	wall_hit = wall_hit - floor(wall_hit);
+	text_x = (int) (wall_hit * (double)p->textures[texture].width);
+	if (side == 0 && p->ray_dir.x > 0)
+		text_x = p->textures[texture].width - text_x - 1;
+	if (side == 1 && p->ray_dir.y < 0)
+		text_x = p->textures[texture].width - text_x - 1;
+	i = 0;
+	height = abs((int)((double)HEIGHT / distance));
+	step = 1.0 * p->textures[texture].height / height;
+	if (height >= HEIGHT)
+		height = HEIGHT;
+	text_pos = i + (int)((HEIGHT - height)/2);
+	while (i < height)
+	{
+		text_y = (int)text_pos & (p->textures[texture].height - 1);
+		my_mlx_pixel_put(&(p->screen), pixel, (int)((HEIGHT - height)/2) + i, \
+		ft_color_texture(p->textures[texture], text_x, text_y));
+		text_pos += step;
+		i++;
+	}
+}
 
 void	ft_ray_casting(t_program *p)
 {
@@ -138,6 +203,7 @@ void	ft_ray_casting(t_program *p)
 	{
 		p->ray_dir = ft_ray_direction(pixel, p);
 		distance = ft_distance_collision(p, p->ray_dir, side_coll);
+		//ft_draw_texture(p, *side_coll, distance, pixel);
 		ft_draw_vertical_line(p, distance, pixel, *side_coll);
 		pixel++;
 	}

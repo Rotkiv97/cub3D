@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:58:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/30 20:06:18 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/03 20:19:29 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,11 @@
 
 int		ft_check_move(t_dvector new_pos, t_program *p, t_dvector mov_dir)
 {
-	//double		new_distance;
 	double		collision_distance;
-	int			a;
 
 	mov_dir.x = new_pos.x - p->player.dir.x;
 	mov_dir.y = new_pos.y - p->player.dir.y;
-	//new_distance = sqrt(pow(new_pos.y - p->player.pos.y, 2) + pow(new_pos.x - p->player.pos.x, 2));
-	collision_distance = ft_distance_collision(p, mov_dir, &a);
-	//printf("collision_distance = %f and new_distance = %f\n", collision_distance, new_distance);
-	/* if (new_distance > collision_distance)
-		return (1); */
+	collision_distance = ft_distance_collision(p, mov_dir);
 	collision_distance = collision_distance;
 	return (0);
 }
@@ -57,8 +51,6 @@ void	ft_move_player(t_program *p, int key)
 		return ;
 	p->player.pos.x = new_position.x;
 	p->player.pos.y = new_position.y;
-	//printf("Player position :");
-	//ft_print_vector(&p->player.pos, true);
 }
 
 int	ft_input(int key, void *program)

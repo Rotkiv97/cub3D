@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/02 18:54:17 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:07:45 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,13 @@ bool	ft_check_collision(t_program *p, t_ivector map_check)
 	y = map_check.y;
 	if(x >= 0 && y >= 0)
 	{
-		if (p->map[y][x] == '1')
+		if (p->map[y][x] == '1' || p->map[y][x] == 'D')
 			collision = true;
 	}
-	else if (x < 0 || y < 0)
-		collision = true;
 	return (collision);
 }
 
-double	ft_distance_collision(t_program *p, t_dvector ray_dir, int *side_coll)
+double	ft_distance_collision(t_program *p, t_dvector ray_dir)
 {
 	bool		collision;
 	double		dist_max;
@@ -41,9 +39,8 @@ double	ft_distance_collision(t_program *p, t_dvector ray_dir, int *side_coll)
 	t_dvector	ray_length1D;
 	t_dvector	step;
 	t_dvector	ray_start;
-	int			side;
 
-	side = 0;
+	p->side = -1;
 	ray_start = p->player.pos;
 	map_check = (t_ivector){(int)p->player.pos.x, (int)p->player.pos.y};	//salvo la casella in cui e' presente il player
 	if (ray_dir.x == 0)
@@ -87,14 +84,14 @@ double	ft_distance_collision(t_program *p, t_dvector ray_dir, int *side_coll)
 	{
 		if (ray_length1D.x < ray_length1D.y)
 		{
-			side = 0;
+			p->side = 0;
 			map_check.x += step.x;
 			distance = ray_length1D.x;
 			ray_length1D.x += scaling_factor.x;
 		}
 		else
 		{
-			side = 1;
+			p->side = 1;
 			map_check.y += step.y;
 			distance = ray_length1D.y;
 			ray_length1D.y += scaling_factor.y;
@@ -102,14 +99,15 @@ double	ft_distance_collision(t_program *p, t_dvector ray_dir, int *side_coll)
 		if (ft_check_collision(p, map_check))
 		{
 			collision = true;
+			p->map_check.x = map_check.x;
+			p->map_check.y = map_check.y;
 			break ;
 		}
 	}
-	 if(side == 0)
+	 if(p->side == 0)
 		distance = fabs((map_check.x - ray_start.x + (1 - step.x) / 2) / ray_dir.x);
 	else
 		distance = fabs((map_check.y - ray_start.y + (1 - step.y) / 2) / ray_dir.y);
-	*side_coll = side;
 	return (distance);
 }
 
@@ -137,7 +135,8 @@ int		ft_pick_texture(t_program *p, int side_coll)
 		text = 2;
 	else if (side_coll == 0 && p->ray_dir.x >= 0)
 		text = 3;
-	
+	if (p->map[p->map_check.y][p->map_check.x] == 'D')
+		text = 6;
 	return (text);
 }
 
@@ -146,63 +145,65 @@ int	ft_color_texture(t_img texture, int x, int y)
 	int		color;
 	char	*dst;
 
-	dst = texture.addr + (y * texture.line_length + x * (texture.bits_per_pixel / 8));
+	dst = texture.addr + ((y) * texture.line_length + x * (texture.bits_per_pixel / 8));
 	color = *(unsigned int*)dst;
 	return (color);
 }
 
-void	ft_draw_texture(t_program *p, int side, double distance, int pixel)
+void	ft_draw_texture(t_program *p, double distance, int pixel)
 {
 	double	wall_hit;
 	int		text_x;
 	int		text_y;
 	int		texture;
-	double	step;
 	double	height;
 	double	text_pos;
 	int		i;
+	int		plus;
 
-	texture = ft_pick_texture(p, side);
-	if (side == 0)
+	texture = ft_pick_texture(p, p->side);
+	if (p->side == 0)
 		wall_hit = p->player.pos.y + distance * p->ray_dir.y;
 	else
 		wall_hit = p->player.pos.x + distance * p->ray_dir.x;
-	wall_hit = wall_hit - floor(wall_hit);
+	wall_hit -= floor(wall_hit);
 	text_x = (int) (wall_hit * (double)p->textures[texture].width);
-	if (side == 0 && p->ray_dir.x > 0)
+	if (p->side == 0 && p->ray_dir.x > 0)
 		text_x = p->textures[texture].width - text_x - 1;
-	if (side == 1 && p->ray_dir.y < 0)
+	if (p->side == 1 && p->ray_dir.y < 0)
 		text_x = p->textures[texture].width - text_x - 1;
 	i = 0;
 	height = abs((int)((double)HEIGHT / distance));
-	step = 1.0 * p->textures[texture].height / height;
+	plus = 0;
 	if (height >= HEIGHT)
-		height = HEIGHT;
-	text_pos = i + (int)((HEIGHT - height)/2);
-	while (i < height)
 	{
-		text_y = (int)text_pos & (p->textures[texture].height - 1);
-		my_mlx_pixel_put(&(p->screen), pixel, (int)((HEIGHT - height)/2) + i, \
+		plus = height - HEIGHT;
+		height = HEIGHT;
+	}
+	while (i <= height)
+	{
+		text_pos = (double)(((double)i + (double)plus / 2) * (double)p->textures[texture].height / (double)(height + plus));
+		text_y = (int)round(text_pos) & (p->textures[texture].height - 1);
+		my_mlx_pixel_put(&(p->screen), pixel, (HEIGHT - height)/2 + i, \
 		ft_color_texture(p->textures[texture], text_x, text_y));
-		text_pos += step;
 		i++;
 	}
+	plus = plus;
 }
 
 void	ft_ray_casting(t_program *p)
 {
 	int			pixel;
 	double		distance;
-	int			side_coll[1];
 
 	pixel = 0;
-	*side_coll = -1;
+	p->side = -1;
 	ft_background(p);
 	while (pixel < WIDTH)
 	{
 		p->ray_dir = ft_ray_direction(pixel, p);
-		distance = ft_distance_collision(p, p->ray_dir, side_coll);
-		ft_draw_texture(p, *side_coll, distance, pixel);
+		distance = ft_distance_collision(p, p->ray_dir);
+		ft_draw_texture(p, distance, pixel);
 		//ft_draw_vertical_line(p, distance, pixel, *side_coll);
 		pixel++;
 	}

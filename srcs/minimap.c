@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:49:58 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/02 19:05:04 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:12:25 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_draw_walls_minimap(t_program *p, t_ivector cell_size, int n_cell)
 				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0xFF0000);
 			else if(ft_in_set(p->map[iterator.y][iterator.x], "0N"))
 				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0);
-			else if(ft_in_set(p->map[iterator.y][iterator.x], "P"))
+			else if(ft_in_set(p->map[iterator.y][iterator.x], "D"))
 				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0x00FFFF);
 			if (iterator.x == (int)p->player.pos.x && iterator.y == (int)p->player.pos.y)
 				ft_fill_cell_minimap(p, (t_ivector){j * (int)((double)cell_size.x ), i * (int)((double)cell_size.y)}, \

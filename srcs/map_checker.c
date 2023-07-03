@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/27 18:10:11 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:10:18 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_check_char(t_program *p)
 	int		flag;
 
 	y = -1;
-	chars = "10 NPE\n";
+	chars = "10 NPED\n";
 	flag = 0;
 	//printf("mat\n");
 	//ft_print_mat(p->map, false);

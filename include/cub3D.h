@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/01 19:39:12 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:08:56 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@
 # define PI 3.1415926535
 
 # define FOV 0.7
-# define WIDTH 800
-# define HEIGHT	600
+# define WIDTH 1920
+# define HEIGHT	1080
 # define UNIT_HEIGHT (HEIGHT / 1.2)
 
 # define MOVESPEED 0.1
-# define ROTSPEED 1.2
+# define ROTSPEED 1.5
 
 # define ESC 65307
 # define PAUSE 112
@@ -97,16 +97,19 @@ typedef struct s_program
 	int				pause;
 	double			fov;
 	t_img			screen;
-	t_img			textures[4];
+	t_img			textures[7];
 	t_ivector		map_size;
 	t_ivector		mouse;
 	t_dvector		ray_dir;
+	t_ivector		map_check;
+	int				side;
 	t_player		player;
 }t_program;
 
 /*	minimap.c	*/
 
-void	ft_draw_minimap(t_program *p);
+void		ft_fill_cell_minimap(t_program *p, t_ivector position, t_ivector cell_size, int color);
+void		ft_draw_minimap(t_program *p);
 
 /*	draw_on_image.c	*/
 
@@ -129,7 +132,8 @@ int			ft_input(int key, void *program);
 
 /*	project_path/srcs/ray_casting_dda.c	*/
 
-double		ft_distance_collision(t_program *p, t_dvector ray_dir, int *side_coll);
+int			ft_color_texture(t_img texture, int x, int y);
+double		ft_distance_collision(t_program *p, t_dvector ray_dir);
 void		ft_ray_casting(t_program *p);
 
 /*	srcs/read_file.c	*/

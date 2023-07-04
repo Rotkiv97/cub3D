@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:25:08 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/26 14:11:54 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/04 14:47:42 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,3 +55,9 @@ int	ft_in_set(char c, char *str)
 	return (0);
 }
 
+int	ft_close(t_program *p)
+{
+	ft_free_program(p);
+	exit(0);
+	return (0);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcolucci <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:28:02 by dcolucci          #+#    #+#             */
-/*   Updated: 2022/10/15 17:18:02 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:50:07 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static int	ft_end(const char *s, const char *set)
 	int	i;
 
 	i = ft_strlen(s) - 1;
+	if (i == 0)
+		return (0);
 	while (char_in(s[i], set) && i >= 0)
 		i--;
 	return (i);

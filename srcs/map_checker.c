@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/03 19:10:18 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/04 14:56:32 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_check_char(t_program *p)
 	int		flag;
 
 	y = -1;
-	chars = "10 NPED\n";
+	chars = "10 NPEDO\n";
 	flag = 0;
 	//printf("mat\n");
 	//ft_print_mat(p->map, false);
@@ -111,23 +111,19 @@ void	ft_check_char(t_program *p)
 void	ft_check_walls(char **map)
 {
 	int		y;
-	char	**tmp;
+	char	*tmp;
 
-	y = 0;
-	while (map[y])
-		y++;
-	tmp = (char **)malloc(sizeof(char *) * (y + 1));
 	y = 0; 
 	while (map[y])
 	{
-		tmp[y] = ft_strtrim(map[y], " \t\n");
-		if (tmp[y][0] != '1')
+		tmp = ft_strtrim(map[y], " \t\n");
+		if (tmp[0] != '1')
 			ft_free_exit("invalid map asse y sinistra", tmp);
-		else if (tmp[y][ft_strlen(tmp[y]) - 1] != '1')
+		else if (tmp[ft_strlen(tmp) - 1] != '1')
 			ft_free_exit("invalid map asse y defatra", tmp);
+		free(tmp);
 		y++;
 	}
-	free(tmp);
 }
 
 /* da qui in poi si faranno tutti i 

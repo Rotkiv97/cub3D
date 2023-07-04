@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/01 19:44:30 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:07:29 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ void	ft_program_init(t_program *p, t_player *pl, t_img *screen, char *file_path)
 	p->screen = *screen;
 }
 
-int	ft_close(t_program *p)
+int	ft_mouse(int x, int y, t_program *p)
 {
 	(void)p;
-	exit(0);
+	printf("%d\n", x);
+	printf("%d\n", y);
+
+	//ft_ray_casting(p);
 	return (0);
 }
 
@@ -73,7 +76,7 @@ int	main(int ac, char **av)
 		ft_program_init(&p, &pl, &screen, av[1]);
 		mlx_hook(p.window, 2, 1L << 0, *ft_input, &p);
 		mlx_hook(p.window, 17, 0, ft_close, &p);
-		mlx_loop_hook(p.mlx, *ft_update, &p);
+		mlx_loop_hook(p.mlx, ft_update, &p);
 		mlx_loop(p.mlx);
 	}
 }

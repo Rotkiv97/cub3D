@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 22:35:43 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/03 20:05:54 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:09:38 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_draw_ceiling(t_program *p)
 
 	x = 0;
 	y = 0;
-	ceil = p->textures[4];
+	ceil = p->sprites.ceiling;
 	if (!ceil.img)
 	{
 		ft_fill_cell_minimap(p, (t_ivector){0, 0}, (t_ivector){WIDTH, HEIGHT / 2}, CTEXT);
@@ -60,7 +60,7 @@ void	ft_draw_floor(t_program *p)
 
 	x = 0;
 	y = HEIGHT / 2;
-	floor = p->textures[5];
+	floor = p->sprites.floor;
 	if (!floor.img)
 	{
 		ft_fill_cell_minimap(p, (t_ivector){0, HEIGHT / 2}, (t_ivector){WIDTH, HEIGHT / 2}, FTEXT);
@@ -82,7 +82,12 @@ void	ft_draw_floor(t_program *p)
 
 void	ft_background(t_program *p)
 {
-	ft_fill_cell_minimap(p, (t_ivector){0, 0}, (t_ivector){WIDTH, HEIGHT}, 0);
-	ft_draw_ceiling(p);
-	//ft_draw_floor(p);
+	if (p->ceil_color == 0)
+		ft_draw_ceiling(p);
+	else
+		ft_fill_cell_minimap(p, (t_ivector){0, 0}, (t_ivector){WIDTH, HEIGHT / 2}, p->ceil_color);
+	if (p->floor_color == 0)
+		ft_draw_floor(p);
+	else
+		ft_fill_cell_minimap(p, (t_ivector){0, HEIGHT / 2}, (t_ivector){WIDTH, HEIGHT / 2}, p->floor_color);
 }

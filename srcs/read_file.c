@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 19:24:52 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/03 18:51:22 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:10:48 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,68 @@ void	ft_open_texture(t_program *p, char *texture, char c, bool needed)
 	if (!trim)
 		return ;
 	img.img = mlx_xpm_file_to_image(p->mlx, trim, &img.width, &img.height);
-	printf("trim %s and img pointer %p \n", trim, img.img);
+	free(trim);
 	if (!img.img && needed)
 		ft_exit("Invalid texture");
 	else if (!img.img && !needed)
 		return ;
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	if (c == 'N')
-		p->textures[0] = img;
+		p->sprites.north = img;
 	else if (c == 'S')
-		p->textures[1] = img;
+		p->sprites.south = img;
 	else if (c == 'E')
-		p->textures[2] = img;
+		p->sprites.east = img;
 	else if (c == 'W')
-		p->textures[3] = img;
+		p->sprites.west = img;
 	else if (c == 'C')
-		p->textures[4] = img;
+		p->sprites.ceiling = img;
 	else if (c == 'F')
-		p->textures[5] = img;
+		p->sprites.floor = img;
 	else if (c == 'D')
-		p->textures[6] = img;
-	free(trim);
+		p->sprites.door = img;
+}
+
+void	ft_read_color(t_program *p)
+{
+	char			*tmp;
+	char			**split;
+	int				x;
+	int				y;
+	unsigned int	color;
+
+	x = 0;
+	y = 0;
+	color = 0;
+	while (p->file[x])
+	{
+		y = 0;
+		tmp = ft_strtrim(p->file[x], " \t\n");
+		if (!tmp)
+			return ;
+		if (tmp[0] == 'C' || tmp[0] == 'F')
+		{
+			y++;
+			while (ft_in_set(tmp[y], " \t"))
+				y++;
+			split = ft_split(&tmp[y], ',');
+			y = 0;
+			while (split[y])
+			{
+				color = color << 8;
+				if (ft_atoi(split[y]) <= 255)
+					color = color | ft_atoi(split[y]);
+				y++;
+			}
+			if (tmp[0] == 'C')
+				p->ceil_color = color;
+			else
+				p->floor_color = color;
+			ft_free_mat(split);
+		}
+		free(tmp);
+		x++;
+	}
 }
 
 void	ft_read_file(t_program *p)
@@ -49,6 +90,7 @@ void	ft_read_file(t_program *p)
 	int		i;
 
 	i = 0;
+	ft_read_color(p);
 	while (p->file[i])
 	{
 		if (ft_strnstr(p->file[i], "NO ", 4))

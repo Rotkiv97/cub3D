@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/03 19:08:56 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:36:52 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <sys/time.h>
 
 # define PI 3.1415926535
 
-# define FOV 0.7
-# define WIDTH 1920
-# define HEIGHT	1080
+# define FOV 0.66
+# define WIDTH 800
+# define HEIGHT	600
 # define UNIT_HEIGHT (HEIGHT / 1.2)
 
 # define MOVESPEED 0.1
@@ -39,6 +40,7 @@
 # define S 115
 # define A 97
 # define D 100
+# define E 101
 # define LEFT 65361
 # define RIGHT 65363
 
@@ -87,6 +89,18 @@ typedef struct s_player
 	int				n_rays;
 }t_player;
 
+typedef struct s_sprites
+{
+	t_img	north;
+	t_img	south;
+	t_img	west;
+	t_img	east;
+	t_img	door;
+	t_img	ceiling;
+	t_img	floor;
+}t_sprites;
+
+
 typedef struct s_program
 {
 	void			*mlx;
@@ -97,7 +111,10 @@ typedef struct s_program
 	int				pause;
 	double			fov;
 	t_img			screen;
+	t_sprites		sprites;
 	t_img			textures[7];
+	unsigned int	ceil_color;
+	unsigned int	floor_color;
 	t_ivector		map_size;
 	t_ivector		mouse;
 	t_dvector		ray_dir;
@@ -150,6 +167,7 @@ void		ft_rotate_visual(t_program *p, double angle, bool clockwise);
 int			ft_mat_len(char **mat);
 char		**ft_copy_mat(char **mat);
 int			ft_in_set(char c, char *str);
+int			ft_close(t_program *p);
 
 
 /*	project_path/srcs/utils/utils_print.c	*/
@@ -163,7 +181,7 @@ void		ft_print_mat(char **mat, bool new_line);
 
 void		ft_free_mat(char **mat);
 void		ft_free_program(t_program *p);
-void		ft_free_exit(char *error, char **str);
+void		ft_free_exit(char *error, char *str);
 void		ft_exit(char *error);
 
 #endif

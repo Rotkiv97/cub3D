@@ -48,4 +48,10 @@ fclean:
 
 re: fclean all
 
-.PHONY: all clean fclean re
+exe: all
+	@ ./$(NAME) ./maps/map1.cub
+
+valgrind: all
+	@ valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) ./maps/map1.cub
+
+.PHONY: all clean fclean re exe

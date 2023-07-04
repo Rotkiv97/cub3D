@@ -1,7 +1,7 @@
-	NO ./textures/boh.xpm
-	SO ./textures/osiidiana.xpm
-	WE ./textures/text.xpm
-	EA ./textures/text1.xpm
+	NO ./textures/fire.xpm
+	SO ./textures/water.xpm
+	WE ./textures/cloud.xpm
+	EA ./textures/ice.xpm
 	CT ./textures/sunny.xpm
 	FT ./textures/osiidiana.xpm
 	DO ./textures/wood.xpm

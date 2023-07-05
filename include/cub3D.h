@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/04 17:36:52 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/05 19:35:14 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@
 # define PI 3.1415926535
 
 # define FOV 0.66
-# define WIDTH 800
-# define HEIGHT	600
-# define UNIT_HEIGHT (HEIGHT / 1.2)
+# define WIDTH 1920
+# define HEIGHT	1080
 
-# define MOVESPEED 0.1
+# define MOVESPEED 0.15
 # define ROTSPEED 1.5
 
 # define ESC 65307
@@ -52,17 +51,11 @@
 # define FTEXT 0x112FA8
 # define CTEXT 0x66FFFF
 
-typedef struct s_vector
+typedef struct s_ivector
 {
 	int		x;
 	int		y;
 }t_ivector;
-
-typedef struct s_fvector
-{
-	float	x;
-	float	y;
-}t_fvector;
 
 typedef struct s_dvector
 {
@@ -86,7 +79,11 @@ typedef struct s_player
 	t_dvector	pos;
 	t_dvector	dir;
 	t_dvector	cam_plane;
-	int				n_rays;
+	bool		moving_up;
+	bool		moving_down;
+	bool		moving_left;
+	bool		moving_rigth;
+	bool		moving;
 }t_player;
 
 typedef struct s_sprites
@@ -100,6 +97,15 @@ typedef struct s_sprites
 	t_img	floor;
 }t_sprites;
 
+typedef struct s_rayinfo
+{
+	int			side;
+	double		real_distance;
+	double		perp_distance;
+	t_ivector	map_check;
+	t_dvector	ray_dir;
+}t_rayinfo;
+
 
 typedef struct s_program
 {
@@ -107,15 +113,12 @@ typedef struct s_program
 	void			*window;
 	char			**map;
 	char			**file;
-	int				cell_size;
 	int				pause;
 	double			fov;
-	t_img			screen;
-	t_sprites		sprites;
-	t_img			textures[7];
 	unsigned int	ceil_color;
 	unsigned int	floor_color;
-	t_ivector		map_size;
+	t_img			screen;
+	t_sprites		sprites;
 	t_ivector		mouse;
 	t_dvector		ray_dir;
 	t_ivector		map_check;
@@ -145,6 +148,9 @@ int			ft_update(void *program);
 
 /*	project_path/event/key_hook.c	*/
 
+void		ft_move(t_program *p);
+void		ft_move_player(t_program *p, int key);
+int			ft_input_release(int key, void *program);
 int			ft_input(int key, void *program);
 
 /*	project_path/srcs/ray_casting_dda.c	*/

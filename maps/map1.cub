@@ -1,15 +1,13 @@
 
-	NO ./textures/ice.xpm
-	SO ./textures/fire.xpm
-	WE ./textures/cloud.xpm
-	EA ./textures/water.xpm
-	CT ./textures/sky.xpm
+	NO ./textures/boh.xpm
+	SO ./textures/osiidiana.xpm
+	WE ./textures/text.xpm
+	EA ./textures/text1.xpm
+	CT ./textures/sunny.xpm
 	FT ./textures/wood.xpm
 	DO ./textures/wood.xpm
 
-
-F 21,15,15
-
+F 10,40,20
 11111111111111111
 10000000000000111
 11111111011111111

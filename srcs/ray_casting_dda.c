@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/06 16:26:31 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/06 19:00:16 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,35 +188,6 @@ void	ft_draw_texture(t_program *p, double distance, int pixel)
 	plus = plus;
 }
 
-/* void	ft_draw_animations(t_program  *p)
-{
-	int		x;
-	int		y;
-	t_img	animation;
-	char	*dst;
-	//char	color_texture;
-
-	x = 0;
-	y = 0;
-	animation = p->sprites.animations[p->frame % 10];
-	while (x < animation.width)
-	{
-		y = 0;
-		while (y < animation.height)
-		{
-			dst = p->screen.addr + (y * p->screen.line_length + x * (p->screen.bits_per_pixel / 8));
-			 if (*(unsigned int *)dst > 0)
-			{
-				*(unsigned int *)dst = *(unsigned int *)(animation.addr + (y * animation.line_length + x * (animation.bits_per_pixel / 8)));
-			} 
-			y++;
-		}
-		x++;
-	}
-	dst = dst;
-} */
-
-
 void	ft_ray_casting(t_program *p)
 {
 	int			pixel;
@@ -232,9 +203,7 @@ void	ft_ray_casting(t_program *p)
 		ft_draw_texture(p, distance, pixel);
 		pixel++;
 	}
-	printf("%p\n", p->sprites.animations[p->frame % 10].img);
-	ft_fill_texture(p, (t_ivector){0, (3/2) * HEIGHT}, (t_ivector){WIDTH, HEIGHT / 3}, p->sprites.animations[p->frame % 10]);
+	ft_fill_texture(p, (t_ivector){0 , HEIGHT / 2 }, (t_ivector){WIDTH, HEIGHT / 2}, p->sprites.animations[p->frame % 9]);
 	ft_draw_minimap(p);
-	//ft_draw_animations(p);
 	mlx_put_image_to_window(p->mlx, p->window, p->screen.img, 0, 0);
 }

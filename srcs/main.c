@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/06 16:30:25 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/06 19:01:59 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ void	ft_img_init(t_program *p)
 	{
 		itoa = ft_itoa(i + 1); 
 		animations = ft_strjoin(itoa , ".xpm");
-		animations = ft_strjoin("./textures/animation_test/", animations);
+		animations = ft_strjoin("./textures/animations/", animations);
 		p->sprites.animations[i].img = \
 		mlx_xpm_file_to_image(p->mlx, animations, \
 		&p->sprites.animations[i].width, &p->sprites.animations[i].height);
-		mlx_get_data_addr(p->sprites.animations[i].img, &p->sprites.animations[i].bits_per_pixel, &p->sprites.animations[i].line_length, &p->sprites.animations[i].endian);
-		printf("ok\n");
+		if (!p->sprites.animations[i].img)
+			ft_exit("Animation");
+		p->sprites.animations[i].addr = mlx_get_data_addr(p->sprites.animations[i].img, &p->sprites.animations[i].bits_per_pixel, &p->sprites.animations[i].line_length, &p->sprites.animations[i].endian);
 		free(itoa);
 		i++;
 	}

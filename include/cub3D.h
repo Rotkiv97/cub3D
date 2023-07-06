@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/06 16:19:59 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/06 18:49:52 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # define PI 3.1415926535
 
 # define FOV 0.66
-# define WIDTH 1920
-# define HEIGHT	1080
+# define WIDTH 800
+# define HEIGHT	600
 
 # define MOVESPEED 0.15
 # define ROTSPEED 1.5

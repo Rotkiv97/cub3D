@@ -88,6 +88,7 @@ typedef struct s_player
 
 typedef struct s_sprites
 {
+	t_img	animations[9];
 	t_img	north;
 	t_img	south;
 	t_img	west;
@@ -113,6 +114,7 @@ typedef struct s_program
 	void			*window;
 	char			**map;
 	char			**file;
+	long long int	frame;
 	int				pause;
 	double			fov;
 	unsigned int	ceil_color;

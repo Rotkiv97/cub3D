@@ -49,6 +49,7 @@ void	ft_fill_texture(t_program *p, t_ivector position, t_ivector size, t_img tex
 		while (y <= size.y)
 		{
 			texty = (int)((y) * (double)texture.height / size.y);
+			printf("textx texty %d %d\n", textx, texty);
 			my_mlx_pixel_put(&(p->screen), position.x + x, position.y + y, ft_color_texture(texture, textx, texty));
 			y++;
 		}

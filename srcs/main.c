@@ -39,7 +39,11 @@ void	ft_player_init(t_program *p)
 }
 
 void	ft_img_init(t_program *p)
-{	
+{
+	int		i;
+	char	*animations;
+	char	*itoa;
+
 	p->screen.img = mlx_new_image(p->mlx, WIDTH, HEIGHT);
 	p->screen.addr = mlx_get_data_addr(p->screen.img, \
 	&p->screen.bits_per_pixel, &p->screen.line_length, &p->screen.endian);
@@ -52,6 +56,20 @@ void	ft_img_init(t_program *p)
 	p->sprites.door.img = 0;
 	p->ceil_color = 0;
 	p->floor_color = 0;
+	i = 0;
+	while (i < 9)
+	{
+		itoa = ft_itoa(i + 1); 
+		animations = ft_strjoin(itoa , ".xpm");
+		animations = ft_strjoin("./textures/animation_test/", animations);
+		p->sprites.animations[i].img = \
+		mlx_xpm_file_to_image(p->mlx, animations, \
+		&p->sprites.animations[i].width, &p->sprites.animations[i].height);
+		mlx_get_data_addr(p->sprites.animations[i].img, &p->sprites.animations[i].bits_per_pixel, &p->sprites.animations[i].line_length, &p->sprites.animations[i].endian);
+		printf("ok\n");
+		free(itoa);
+		i++;
+	}
 }
 
 void	ft_program_init(t_program *p, char *file_path)
@@ -63,6 +81,7 @@ void	ft_program_init(t_program *p, char *file_path)
 	ft_img_init(p);
 	ft_read_file(p);
 	p->pause = 0;
+	p->frame = 0;
 	p->fov = FOV;
 	p->window = mlx_new_window(p->mlx, WIDTH, HEIGHT, "cub3D");
 	ft_player_init(p);

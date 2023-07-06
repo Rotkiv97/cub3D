@@ -123,6 +123,8 @@ int	ft_update(void *p)
 	time_t					end;
 
 	program = p;
+
+	program->frame = i;
 	start = ft_return_time();
 	ft_mouse_visual(program, i++);
 	if (program->player.moving)

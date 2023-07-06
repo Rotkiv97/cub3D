@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/06 12:17:08 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/06 16:19:59 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ void		ft_draw_minimap(t_program *p);
 /*	draw_on_image.c	*/
 
 void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void		my_mlx_pixel_put_transp(t_img *img, int x, int y, int color);
+void		ft_fill_texture(t_program *p, t_ivector position, t_ivector size, t_img texture);
 void		ft_black_screen(t_program *p);
 void		ft_background(t_program *p);
 void		ft_draw_vertical_line(t_program *p, double distance, int pixel, int side_coll);

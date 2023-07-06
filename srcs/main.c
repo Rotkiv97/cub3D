@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/06 14:22:21 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/06 16:30:25 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	ft_img_init(t_program *p)
 	p->sprites.west.img = 0;
 	p->sprites.east.img = 0;
 	p->sprites.door.img = 0;
+	p->ceil_color = 0;
+	p->floor_color = 0;
 }
 
 void	ft_program_init(t_program *p, char *file_path)

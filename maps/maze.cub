@@ -3,6 +3,7 @@
 	WE ./textures/maze/maze2.xpm
 	EA ./textures/maze/maze3.xpm
 
+	CT ./textures/sunny.xpm
 	DC ./textures/maze/door_closed.xpm
 	DO ./textures/maze/door_opened.xpm
 

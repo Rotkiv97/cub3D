@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/04 17:21:12 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/06 14:24:07 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,16 @@ t_dvector	ft_ray_direction(int pixel, t_program *p)
 
 t_img		*ft_pick_texture(t_program *p, int side_coll)
 {
-	if (side_coll == 1 && p->ray_dir.y <= 0)
-		return(&p->sprites.north);
-	else if (side_coll == 1 && p->ray_dir.y > 0)
-		return(&p->sprites.south);
-	else if (side_coll == 0 && p->ray_dir.x < 0)
-		return(&p->sprites.east);
-	else if (side_coll == 0 && p->ray_dir.x >= 0)
-		return(&p->sprites.west);
 	if (p->map[p->map_check.y][p->map_check.x] == 'D')
 		return (&p->sprites.door);
+	if (side_coll == 1 && p->ray_dir.y <= 0)
+		return(&p->sprites.north);
+	if (side_coll == 1 && p->ray_dir.y > 0)
+		return(&p->sprites.south);
+	if (side_coll == 0 && p->ray_dir.x < 0)
+		return(&p->sprites.east);
+	if (side_coll == 0 && p->ray_dir.x >= 0)
+		return(&p->sprites.west);
 	return (0);
 }
 

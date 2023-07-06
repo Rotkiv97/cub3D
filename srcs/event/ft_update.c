@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 18:15:28 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/05 17:52:11 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/06 11:06:31 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,14 @@ void	ft_fps(t_program *p, time_t start, time_t end)
 {
 	int		fps;
 	char	*itoa;
+	char	*tmp;
 
 	fps = (int)((double)1000 / (end - start));
 	itoa = ft_itoa(fps);
-	mlx_string_put(p->mlx, p->window, WIDTH / 2, HEIGHT / 50, 0xFF00000, itoa);
+	tmp = ft_strjoin("FPS : ", itoa);
+	mlx_string_put(p->mlx, p->window, WIDTH / 2, HEIGHT / 50, 0xFF00000, tmp);
 	free(itoa);
+	free(tmp);
 }
 
 t_dvector	ft_set_new_dir(t_program *p)

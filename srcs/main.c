@@ -6,15 +6,11 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/05 19:21:14 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/06 14:22:21 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-/* void	ft_set_player_direction(t_player *pl)
-{
-} */
 
 void	ft_player_init(t_program *p)
 {
@@ -42,11 +38,18 @@ void	ft_player_init(t_program *p)
 	}
 }
 
-void	ft_screen_init(t_program *p)
-{
+void	ft_img_init(t_program *p)
+{	
 	p->screen.img = mlx_new_image(p->mlx, WIDTH, HEIGHT);
 	p->screen.addr = mlx_get_data_addr(p->screen.img, \
 	&p->screen.bits_per_pixel, &p->screen.line_length, &p->screen.endian);
+	p->sprites.ceiling.img = 0;
+	p->sprites.floor.img = 0;
+	p->sprites.north.img = 0;
+	p->sprites.south.img = 0;
+	p->sprites.west.img = 0;
+	p->sprites.east.img = 0;
+	p->sprites.door.img = 0;
 }
 
 void	ft_program_init(t_program *p, char *file_path)
@@ -54,13 +57,13 @@ void	ft_program_init(t_program *p, char *file_path)
 	ft_map_checker(p, file_path);
 	p->mlx = mlx_init();
 	if (!p->mlx)
-		exit(-1);
+		exit(-1);	//meglio
+	ft_img_init(p);
 	ft_read_file(p);
 	p->pause = 0;
 	p->fov = FOV;
 	p->window = mlx_new_window(p->mlx, WIDTH, HEIGHT, "cub3D");
 	ft_player_init(p);
-	ft_screen_init(p);
 	mlx_mouse_get_pos(p->mlx, p->window, &p->mouse.x, &p->mouse.y);
 }
 

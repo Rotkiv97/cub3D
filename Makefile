@@ -49,7 +49,7 @@ fclean:
 re: fclean all
 
 exe: all
-	@ ./$(NAME) ./maps/map1.cub
+	@ ./$(NAME) ./maps/maze.cub
 
 valgrind: all
 	@ valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) ./maps/map1.cub

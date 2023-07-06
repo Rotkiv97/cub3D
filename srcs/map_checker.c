@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/04 14:56:32 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/06 12:19:56 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	ft_check_char(t_program *p)
 	int		flag;
 
 	y = -1;
-	chars = "10 NPEDO\n";
+	chars = "10 NPEDOLS\n";
 	flag = 0;
-	//printf("mat\n");
+	//printf("mat : %p\n", p->map);
 	//ft_print_mat(p->map, false);
 	//printf("mat\n");
 	while (p->map[++y] != NULL)

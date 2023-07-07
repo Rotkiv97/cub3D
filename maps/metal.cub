@@ -5,6 +5,8 @@ EA ./textures/metal/metal_wall.xpm
 
 DO	./textures/metal/metal_door.xpm
 
+C 30,30,30
+F 50,50,10
 
 1111111111111111111111111111111
 1001001000000000000000000000001

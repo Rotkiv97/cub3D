@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/06 18:49:52 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/07 15:48:45 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # define PI 3.1415926535
 
 # define FOV 0.66
-# define WIDTH 800
-# define HEIGHT	600
+# define WIDTH 1920
+# define HEIGHT	1080
 
 # define MOVESPEED 0.15
 # define ROTSPEED 1.5
@@ -100,11 +100,16 @@ typedef struct s_sprites
 
 typedef struct s_rayinfo
 {
+	int			pixel;
 	int			side;
 	double		real_distance;
 	double		perp_distance;
+	t_ivector	step;
 	t_ivector	map_check;
+	t_dvector	length1D;
 	t_dvector	ray_dir;
+	t_dvector	ray_start;
+	t_dvector	scaling_factor;
 }t_rayinfo;
 
 
@@ -121,10 +126,8 @@ typedef struct s_program
 	unsigned int	floor_color;
 	t_img			screen;
 	t_sprites		sprites;
+	t_rayinfo		ray;
 	t_ivector		mouse;
-	t_dvector		ray_dir;
-	t_ivector		map_check;
-	int				side;
 	t_player		player;
 }t_program;
 
@@ -142,6 +145,10 @@ void		ft_black_screen(t_program *p);
 void		ft_background(t_program *p);
 void		ft_draw_vertical_line(t_program *p, double distance, int pixel, int side_coll);
 
+/*	texture.c	*/
+
+void		ft_draw_texture(t_program *p, int pixel);
+
 /*	project_path/map_checker.c	*/
 
 void		ft_map_checker(t_program *p, char *file_path);
@@ -156,6 +163,10 @@ void		ft_move(t_program *p);
 void		ft_move_player(t_program *p, int key);
 int			ft_input_release(int key, void *program);
 int			ft_input(int key, void *program);
+
+/*	init_ray.c	*/
+
+void		ft_init_ray(t_program *p, int pixel);
 
 /*	project_path/srcs/ray_casting_dda.c	*/
 

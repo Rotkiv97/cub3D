@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/06 19:01:59 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/07 15:05:18 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,43 @@ void	ft_player_init(t_program *p)
 	}
 }
 
-void	ft_img_init(t_program *p)
+void	ft_load_animations(t_program *p)
 {
 	int		i;
 	char	*animations;
 	char	*itoa;
+	char	*tmp;
 
+	i = 0;
+	while (i < 9)
+	{
+		itoa = ft_itoa(i + 1); 
+		tmp = ft_strjoin(itoa , ".xpm");
+		animations = ft_strjoin("./textures/animations/", tmp);
+		p->sprites.animations[i].img = \
+		mlx_xpm_file_to_image(p->mlx, animations, \
+		&p->sprites.animations[i].width, &p->sprites.animations[i].height);
+		free(itoa);
+		free(animations);
+		free(tmp);
+		if (!p->sprites.animations[i].img)
+			ft_exit("Animation");
+		printf("ok\n");
+		p->sprites.animations[i].addr = mlx_get_data_addr(p->sprites.animations[i].img,\
+		&p->sprites.animations[i].bits_per_pixel, &p->sprites.animations[i].line_length, \
+		&p->sprites.animations[i].endian);
+		i++;
+	}
+}
+
+void	ft_img_init(t_program *p)
+{
 	p->screen.img = mlx_new_image(p->mlx, WIDTH, HEIGHT);
 	p->screen.addr = mlx_get_data_addr(p->screen.img, \
 	&p->screen.bits_per_pixel, &p->screen.line_length, &p->screen.endian);
+	if (!p->screen.img)
+		ft_exit("Cannot open window");
+	//ft_load_animations(p);
 	p->sprites.ceiling.img = 0;
 	p->sprites.floor.img = 0;
 	p->sprites.north.img = 0;
@@ -56,21 +84,7 @@ void	ft_img_init(t_program *p)
 	p->sprites.door.img = 0;
 	p->ceil_color = 0;
 	p->floor_color = 0;
-	i = 0;
-	while (i < 9)
-	{
-		itoa = ft_itoa(i + 1); 
-		animations = ft_strjoin(itoa , ".xpm");
-		animations = ft_strjoin("./textures/animations/", animations);
-		p->sprites.animations[i].img = \
-		mlx_xpm_file_to_image(p->mlx, animations, \
-		&p->sprites.animations[i].width, &p->sprites.animations[i].height);
-		if (!p->sprites.animations[i].img)
-			ft_exit("Animation");
-		p->sprites.animations[i].addr = mlx_get_data_addr(p->sprites.animations[i].img, &p->sprites.animations[i].bits_per_pixel, &p->sprites.animations[i].line_length, &p->sprites.animations[i].endian);
-		free(itoa);
-		i++;
-	}
+	
 }
 
 void	ft_program_init(t_program *p, char *file_path)
@@ -81,12 +95,12 @@ void	ft_program_init(t_program *p, char *file_path)
 		exit(-1);	//meglio
 	ft_img_init(p);
 	ft_read_file(p);
-	p->pause = 0;
-	p->frame = 0;
-	p->fov = FOV;
 	p->window = mlx_new_window(p->mlx, WIDTH, HEIGHT, "cub3D");
 	ft_player_init(p);
 	mlx_mouse_get_pos(p->mlx, p->window, &p->mouse.x, &p->mouse.y);
+	p->pause = 0;
+	p->frame = 0;
+	p->fov = FOV;
 }
 
 int	main(int ac, char **av)

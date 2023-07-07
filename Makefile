@@ -5,10 +5,12 @@ NAME = cub3D
 STCDIR = srcs
 SRC =		srcs/main.c \
 			srcs/map_checker.c \
+			srcs/ray_init.c \
 			srcs/ray_casting_dda.c \
 			srcs/minimap.c \
 			srcs/read_file.c \
 			srcs/draw_on_image.c \
+			srcs/texture.c \
 			srcs/event/key_hook.c \
 			srcs/event/ft_update.c \
 
@@ -54,4 +56,7 @@ exe: all
 valgrind: all
 	@ valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) ./maps/map1.cub
 
-.PHONY: all clean fclean re exe
+norminette:
+	@ norminette ./srcs
+
+.PHONY: all clean fclean re exe valgrind norminette

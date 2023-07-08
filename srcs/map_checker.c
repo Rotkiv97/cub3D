@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/06 12:19:56 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/07 19:08:48 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,5 +213,5 @@ void	ft_map_checker(t_program *p, char *file_path)
 	ft_check_char(p);
 	ft_check_walls(p->map);
 	ft_check_map_last(p->map);
-	ft_print_mat(p->map, false);
+	//ft_print_mat(p->map, false);
 }

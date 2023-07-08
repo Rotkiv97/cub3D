@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 18:15:28 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/06 11:06:31 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:00:04 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,7 @@ void	ft_mouse_visual(t_program *program, int frame)
 	}
 }
 
-void	ft_fps(t_program *p, time_t start, time_t end)
-{
-	int		fps;
-	char	*itoa;
-	char	*tmp;
 
-	fps = (int)((double)1000 / (end - start));
-	itoa = ft_itoa(fps);
-	tmp = ft_strjoin("FPS : ", itoa);
-	mlx_string_put(p->mlx, p->window, WIDTH / 2, HEIGHT / 50, 0xFF00000, tmp);
-	free(itoa);
-	free(tmp);
-}
 
 t_dvector	ft_set_new_dir(t_program *p)
 {
@@ -102,17 +90,49 @@ t_dvector	ft_set_new_dir(t_program *p)
 void	ft_move(t_program *p)
 {
 	t_dvector	mov_dir;
-	t_dvector	new_position;
+	t_ivector	n;
+	t_ivector	pos;
 
+	pos.x = (int)p->player.pos.x;
+	pos.y = (int)p->player.pos.y;
 	mov_dir = ft_set_new_dir(p);
-	new_position.x = p->player.pos.x + mov_dir.x * (double)MOVESPEED;
-	new_position.y = p->player.pos.y + mov_dir.y * (double)MOVESPEED;
-	if (p->map[(int)new_position.y][(int)new_position.x] == '1' || \
-	p->map[(int)new_position.y][(int)new_position.x] == 'D')
-		return ;
-	p->player.pos.x = new_position.x;
-	p->player.pos.y = new_position.y;
+	n.x = (int)(p->player.pos.x + mov_dir.x * (double)MOVESPEED);
+	n.y = (int)(p->player.pos.y + mov_dir.y * (double)MOVESPEED);
+	(void)pos;
+	if (ft_in_set(p->map[n.y][n.x], "1D"))
+	{
+		if (!ft_in_set(p->map[pos.y][n.x], "1D"))
+			p->player.pos.x = p->player.pos.x + mov_dir.x * (double)MOVESPEED;
+		else if (!ft_in_set(p->map[n.y][pos.x], "1D"))
+			p->player.pos.y = p->player.pos.y + mov_dir.y * (double)MOVESPEED;
+	}
+	else
+	{
+		p->player.pos.x = p->player.pos.x + mov_dir.x * (double)MOVESPEED;
+		p->player.pos.y = p->player.pos.y + mov_dir.y * (double)MOVESPEED;
+	}
 
+}
+
+void	ft_fps(t_program *p, time_t start, time_t end)
+{
+	int		fps;
+	time_t	new_end;
+	char	*itoa;
+	char	*tmp;
+
+	fps = (int)((double)1000 / (end - start));
+	if (fps > 60)
+	{
+		new_end = (time_t)((double)1000 / (60) + start);
+		usleep((new_end - end) * 1000);
+		fps = (int)((double)1000 / (new_end - start));
+	}
+	itoa = ft_itoa(fps);
+	tmp = ft_strjoin("FPS : ", itoa);
+	mlx_string_put(p->mlx, p->window, WIDTH / 2, HEIGHT / 50, 0xFF00000, tmp);
+	free(itoa);
+	free(tmp);
 }
 
 int	ft_update(void *p)
@@ -123,7 +143,6 @@ int	ft_update(void *p)
 	time_t					end;
 
 	program = p;
-
 	program->frame = i;
 	start = ft_return_time();
 	ft_mouse_visual(program, i++);
@@ -134,5 +153,3 @@ int	ft_update(void *p)
 	ft_fps(program, start, end);
 	return (0);
 }
-
-//1 : diff(ms) = tot : 1000(ms)

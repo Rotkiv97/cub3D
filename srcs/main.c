@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/07 15:05:18 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/08 19:23:04 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_player_init(t_program *p)
 	p->player.moving_down = false;
 	p->player.moving_left = false;
 	p->player.moving_rigth = false;
+	p->player.easter_egg = false;
 	p->player.moving = false;
 	while (map[i])
 	{
@@ -38,43 +39,46 @@ void	ft_player_init(t_program *p)
 	}
 }
 
-void	ft_load_animations(t_program *p)
+void	ft_load_animations(t_program *p, char *path, int n_animations, t_img *animations)
 {
 	int		i;
-	char	*animations;
+	char	*full_path;
 	char	*itoa;
 	char	*tmp;
 
 	i = 0;
-	while (i < 9)
+	while (i < n_animations)
 	{
 		itoa = ft_itoa(i + 1); 
 		tmp = ft_strjoin(itoa , ".xpm");
-		animations = ft_strjoin("./textures/animations/", tmp);
-		p->sprites.animations[i].img = \
-		mlx_xpm_file_to_image(p->mlx, animations, \
-		&p->sprites.animations[i].width, &p->sprites.animations[i].height);
+		full_path = ft_strjoin(path, tmp);
+		animations[i].img = \
+		mlx_xpm_file_to_image(p->mlx, full_path, \
+		&animations[i].width, &animations[i].height);
 		free(itoa);
-		free(animations);
+		free(full_path);
 		free(tmp);
-		if (!p->sprites.animations[i].img)
+		if (!animations[i].img)
 			ft_exit("Animation");
-		printf("ok\n");
-		p->sprites.animations[i].addr = mlx_get_data_addr(p->sprites.animations[i].img,\
-		&p->sprites.animations[i].bits_per_pixel, &p->sprites.animations[i].line_length, \
-		&p->sprites.animations[i].endian);
+		animations[i].addr = mlx_get_data_addr(animations[i].img,\
+		&animations[i].bits_per_pixel, &animations[i].line_length, \
+		&animations[i].endian);
 		i++;
 	}
 }
 
 void	ft_img_init(t_program *p)
 {
+	//p->sprites.loop_an= false;
 	p->screen.img = mlx_new_image(p->mlx, WIDTH, HEIGHT);
 	p->screen.addr = mlx_get_data_addr(p->screen.img, \
 	&p->screen.bits_per_pixel, &p->screen.line_length, &p->screen.endian);
 	if (!p->screen.img)
 		ft_exit("Cannot open window");
-	//ft_load_animations(p);
+	ft_load_animations(p, "./textures/animation_test/", 9, p->sprites.animations);
+	ft_load_animations(p, "./textures/animation_test/easter_egg/", 4, p->sprites.easter_egg);
+	ft_load_animations(p, "./textures/minimap/", 8, p->sprites.arrow);
+	p->sprites.last_an = 0;
 	p->sprites.ceiling.img = 0;
 	p->sprites.floor.img = 0;
 	p->sprites.north.img = 0;

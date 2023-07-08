@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/07 15:48:45 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/08 19:21:42 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define A 97
 # define D 100
 # define E 101
+# define Q 113
 # define LEFT 65361
 # define RIGHT 65363
 
@@ -79,6 +80,7 @@ typedef struct s_player
 	t_dvector	pos;
 	t_dvector	dir;
 	t_dvector	cam_plane;
+	bool		easter_egg;
 	bool		moving_up;
 	bool		moving_down;
 	bool		moving_left;
@@ -88,7 +90,10 @@ typedef struct s_player
 
 typedef struct s_sprites
 {
+	int		last_an;
 	t_img	animations[9];
+	t_img	easter_egg[4];
+	t_img	arrow[8];
 	t_img	north;
 	t_img	south;
 	t_img	west;
@@ -101,6 +106,7 @@ typedef struct s_sprites
 typedef struct s_rayinfo
 {
 	int			pixel;
+	int			height;
 	int			side;
 	double		real_distance;
 	double		perp_distance;
@@ -140,9 +146,10 @@ void		ft_draw_minimap(t_program *p);
 
 void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void		my_mlx_pixel_put_transp(t_img *img, int x, int y, int color);
+void		ft_draw_animation(t_program *p);
 void		ft_fill_texture(t_program *p, t_ivector position, t_ivector size, t_img texture);
 void		ft_black_screen(t_program *p);
-void		ft_background(t_program *p);
+void		ft_background(t_program *p, int pixel);
 void		ft_draw_vertical_line(t_program *p, double distance, int pixel, int side_coll);
 
 /*	texture.c	*/
@@ -159,6 +166,7 @@ int			ft_update(void *program);
 
 /*	project_path/event/key_hook.c	*/
 
+bool		ft_check_movement(t_program *p);
 void		ft_move(t_program *p);
 void		ft_move_player(t_program *p, int key);
 int			ft_input_release(int key, void *program);
@@ -170,9 +178,9 @@ void		ft_init_ray(t_program *p, int pixel);
 
 /*	project_path/srcs/ray_casting_dda.c	*/
 
-int			ft_color_texture(t_img texture, int x, int y);
-double		ft_distance_collision(t_program *p, t_dvector ray_dir);
-void		ft_ray_casting(t_program *p);
+unsigned int	ft_color_texture(t_program *p, t_img texture, t_ivector pixels, bool darker);
+double			ft_distance_collision(t_program *p, t_dvector ray_dir);
+void			ft_ray_casting(t_program *p);
 
 /*	srcs/read_file.c	*/
 
@@ -190,13 +198,11 @@ char		**ft_copy_mat(char **mat);
 int			ft_in_set(char c, char *str);
 int			ft_close(t_program *p);
 
-
 /*	project_path/srcs/utils/utils_print.c	*/
 
 void		ft_putstrerr(char *s);
 void		ft_print_vector(void *v, bool doubl);
 void		ft_print_mat(char **mat, bool new_line);
-
 
 /*	project_path/srcs/utils/utils_free.c	*/
 

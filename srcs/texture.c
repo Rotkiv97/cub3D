@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:20:24 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/07 16:13:53 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:56:12 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,32 @@ t_img	*ft_pick_texture(t_program *p)
 	return (0);
 }
 
-int	ft_color_texture(t_img texture, int x, int y)
+unsigned int	ft_color_texture(t_program *p, t_img texture, t_ivector pixels, bool darker)
 {
-	int		color;
-	char	*dst;
+	unsigned int		color;
+	unsigned char		r;
+	unsigned char		g;
+	unsigned char		b;
+	double				scaling_factor;
+	char				*dst;
 
-	dst = texture.addr + ((y) * texture.line_length + x * \
+	if (p->ray.perp_distance < 0.5)
+		scaling_factor = 1;
+	else
+		scaling_factor = 1 / (p->ray.perp_distance * 2);
+	dst = texture.addr + ((pixels.y) * texture.line_length + pixels.x * \
 	(texture.bits_per_pixel / 8));
 	color = *(unsigned int *)dst;
+	if (darker)
+	{
+		r = (color >> 16) & 0xFF;
+		r = (unsigned char)(r * scaling_factor);
+		g = (color >> 8) & 0xFF;
+		g = (unsigned char)(g * scaling_factor);
+		b = color & 0xFF;
+		b = (unsigned char)(b * scaling_factor);
+		return ((r << 16) | (g << 8) | b);
+	}
 	return (color);
 }
 
@@ -74,26 +92,25 @@ void	ft_draw_texture(t_program *p, int pixel)
 	t_img		*texture;
 	t_ivector	text;
 	int			i;
-	int			height;
 	int			plus;
 
 	texture = ft_pick_texture(p);
 	if (!texture)
 		return ;
 	i = 0;
-	height = abs((int)((double)HEIGHT / p->ray.perp_distance));
+	p->ray.height = abs((int)((double)HEIGHT / p->ray.perp_distance));
 	plus = 0;
-	if (height >= HEIGHT)
+	if (p->ray.height >= HEIGHT)
 	{
-		plus = height - HEIGHT;
-		height = HEIGHT;
+		plus = p->ray.height - HEIGHT;
+		p->ray.height = HEIGHT;
 	}
 	text.x = ft_return_textx(p, texture);
-	while (i <= height)
+	while (i <= p->ray.height)
 	{
-		text.y = ft_return_texty(texture, i, plus, height);
-		my_mlx_pixel_put(&(p->screen), pixel, (HEIGHT - height) / 2 + i, \
-		ft_color_texture(*texture, text.x, text.y));
+		text.y = ft_return_texty(texture, i, plus, p->ray.height);
+		my_mlx_pixel_put(&(p->screen), pixel, (HEIGHT - p->ray.height) / 2 + i, \
+		ft_color_texture(p, *texture, (t_ivector){text.x, text.y}, true));
 		i++;
 	}
 }

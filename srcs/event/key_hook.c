@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:58:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/05 19:24:47 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/08 17:17:18 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ int	ft_input_release(int key, void *program)
 		p->player.moving_rigth = false;
 	if (!ft_check_movement(p))
 		p->player.moving = false;
+	if (key == Q)
+		p->player.easter_egg = false;
 	return (0);
 }
-
-//mlx_mouse_hide(p->mlx, p->window);
 
 int	ft_input(int key, void *program)
 {
@@ -89,6 +89,8 @@ int	ft_input(int key, void *program)
 	}
 	if (key == ESC)
 		ft_close(p);
+	if (key == Q)
+		p->player.easter_egg = true;
 	if (p->pause == 1)
 		return (0);
 	if (key == W || key == S || key == D || key == A)

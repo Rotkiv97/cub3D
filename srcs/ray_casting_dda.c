@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/07 15:47:12 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/08 17:18:59 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,15 @@ void	ft_ray_casting(t_program *p)
 	int			pixel;
 
 	pixel = 0;
-	ft_background(p);
 	while (pixel < WIDTH)
 	{
 		ft_init_ray(p, pixel);
 		ft_loop_collision(p);
 		ft_draw_texture(p, pixel);
+		ft_background(p, pixel);
 		pixel++;
 	}
+	ft_draw_animation(p);
 	ft_draw_minimap(p);
 	mlx_put_image_to_window(p->mlx, p->window, p->screen.img, 0, 0);
 }

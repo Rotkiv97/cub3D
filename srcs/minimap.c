@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:49:58 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/04 17:27:35 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/08 20:31:58 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,60 @@ void	ft_fill_cell_minimap(t_program *p, t_ivector position, t_ivector cell_size,
 		}
 		i++;
 	}
+}
+
+void	ft_draw_arrow(t_program *p, t_ivector position, t_ivector size)
+{
+	int			texture;
+ 	double		dx;
+	double		dy;
+
+	texture = 0;
+ 	dx = p->player.dir.x;
+	dy = p->player.dir.y;
+	if (fabs(dx) > fabs(dy))
+	{
+		if (dx > 0)
+		{
+			if (dx > 0.86602540378)
+					texture = 2;
+			else
+			{
+				if (dy > 0 && dx > 0.5)
+					texture = 3;
+				else if (dy > 0)
+					texture = 4;
+				else if (dy < 0 && dx > 0.5)
+					texture = 1;
+				else
+					texture = 0;
+			}
+		}
+		else
+		{
+			if (dx < -0.86602540378)
+					texture = 6;
+			else
+			{
+				if (dy > 0 && dx < -0.5)
+					texture = 5;
+				else if (dy > 0)
+					texture = 4;
+				else if (dy < 0 && dx < -0.5)
+					texture = 7;
+				else
+					texture = 0;
+			}
+		}
+	}
+	else
+	{
+		if (dy > 0)
+			texture = 4;
+		else
+			texture = 0;
+	}
+	ft_fill_texture(p, position, size, p->sprites.arrow[texture]);
 }
 
 void	ft_draw_walls_minimap(t_program *p, t_ivector cell_size, int n_cell)
@@ -64,8 +118,9 @@ void	ft_draw_walls_minimap(t_program *p, t_ivector cell_size, int n_cell)
 			else if(ft_in_set(p->map[iterator.y][iterator.x], "O"))
 				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0x00FF00);
 			if (iterator.x == (int)p->player.pos.x && iterator.y == (int)p->player.pos.y)
-				ft_fill_cell_minimap(p, (t_ivector){j * (int)((double)cell_size.x ), i * (int)((double)cell_size.y)}, \
-				(t_ivector){cell_size.x, cell_size.y}, 0xFFFFFF);
+				ft_draw_arrow(p, (t_ivector){j * (int)((double)cell_size.x ), i * (int)((double)cell_size.y)}, (t_ivector){cell_size.x, cell_size.y});
+				/*ft_fill_cell_minimap(p, (t_ivector){j * (int)((double)cell_size.x ), i * (int)((double)cell_size.y)}, \
+				(t_ivector){cell_size.x, cell_size.y}, 0xFFFFFF);*/
 			iterator.x++;
 			j++;
 		}
@@ -100,7 +155,7 @@ void	ft_draw_minimap(t_program *p)
 	t_ivector	cell_size;
 	int			n_cell;
 
-	n_cell = 21;
+	n_cell = 11;
 	cell_size.x = WIDTH / 8 / n_cell;
 	cell_size.y = HEIGHT / 8 / n_cell;
 	ft_draw_walls_minimap(p, cell_size, n_cell);

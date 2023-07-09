@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:49:58 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/08 20:31:58 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/09 17:29:51 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,55 +33,30 @@ void	ft_fill_cell_minimap(t_program *p, t_ivector position, t_ivector cell_size,
 
 void	ft_draw_arrow(t_program *p, t_ivector position, t_ivector size)
 {
-	int			texture;
- 	double		dx;
-	double		dy;
+	static int			texture;
+ 	t_dvector	d;
 
-	texture = 0;
- 	dx = p->player.dir.x;
-	dy = p->player.dir.y;
-	if (fabs(dx) > fabs(dy))
-	{
-		if (dx > 0)
-		{
-			if (dx > 0.86602540378)
-					texture = 2;
-			else
-			{
-				if (dy > 0 && dx > 0.5)
-					texture = 3;
-				else if (dy > 0)
-					texture = 4;
-				else if (dy < 0 && dx > 0.5)
-					texture = 1;
-				else
-					texture = 0;
-			}
-		}
-		else
-		{
-			if (dx < -0.86602540378)
-					texture = 6;
-			else
-			{
-				if (dy > 0 && dx < -0.5)
-					texture = 5;
-				else if (dy > 0)
-					texture = 4;
-				else if (dy < 0 && dx < -0.5)
-					texture = 7;
-				else
-					texture = 0;
-			}
-		}
-	}
-	else
-	{
-		if (dy > 0)
-			texture = 4;
-		else
-			texture = 0;
-	}
+	d = (t_dvector){p->player.dir.x, p->player.dir.y};
+	if (d.x > 0.86602540378)
+		texture = 2;
+	else if (d.x < 0.86602540378 && d.x > 0.5 && d.y > 0)
+		texture = 3;
+	else if (d.x < 0.86602540378 && d.x > 0.5 && d.y <= 0)
+		texture = 1;
+	else if (d.x >= 0 && d.x < 0.5 && d.y > 0)
+		texture = 4;
+	else if (d.x >= 0 && d.x < 0.5 && d.y <= 0)
+		texture = 0;
+	else if (d.x < -0.86602540378)
+		texture = 6;
+	else if (d.x > -0.86602540378 && d.x < -0.5 && d.y > 0)
+		texture = 5;
+	else if (d.x > -0.86602540378 && d.x < -0.5 && d.y <= 0)
+		texture = 7;
+	else if (d.x < 0 && d.x > -0.5 && d.y > 0)
+		texture = 4;
+	else if (d.x < 0 && d.x > -0.5 && d.y <= 0)
+		texture = 0;
 	ft_fill_texture(p, position, size, p->sprites.arrow[texture]);
 }
 
@@ -156,8 +131,8 @@ void	ft_draw_minimap(t_program *p)
 	int			n_cell;
 
 	n_cell = 11;
-	cell_size.x = WIDTH / 8 / n_cell;
-	cell_size.y = HEIGHT / 8 / n_cell;
+	cell_size.x = WIDTH / 7  / n_cell;
+	cell_size.y = HEIGHT  / 7 / n_cell;
 	ft_draw_walls_minimap(p, cell_size, n_cell);
 	ft_draw_border(p, cell_size.x * n_cell, cell_size.y * n_cell);
 }

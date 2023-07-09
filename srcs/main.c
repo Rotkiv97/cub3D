@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/08 19:23:04 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/09 20:55:49 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@ void	ft_player_init(t_program *p)
 	map = (p->map);
 	p->player.dir = (t_dvector){0, -1};
 	p->player.cam_plane = (t_dvector){(double)FOV, 0};
+	p->player.interact = false;
 	p->player.moving_up = false;
 	p->player.moving_down = false;
 	p->player.moving_left = false;
 	p->player.moving_rigth = false;
 	p->player.easter_egg = false;
 	p->player.moving = false;
+	p->player.rotating_left = false;
+	p->player.rotating_rigth = false;
 	while (map[i])
 	{
 		if (ft_strchr(map[i], 'N'))
@@ -56,10 +59,14 @@ void	ft_load_animations(t_program *p, char *path, int n_animations, t_img *anima
 		mlx_xpm_file_to_image(p->mlx, full_path, \
 		&animations[i].width, &animations[i].height);
 		free(itoa);
-		free(full_path);
 		free(tmp);
 		if (!animations[i].img)
-			ft_exit("Animation");
+		{
+			printf("%s", full_path);
+			free(full_path);
+			ft_exit(" : animation not found!");
+		}
+		free(full_path);
 		animations[i].addr = mlx_get_data_addr(animations[i].img,\
 		&animations[i].bits_per_pixel, &animations[i].line_length, \
 		&animations[i].endian);
@@ -67,20 +74,27 @@ void	ft_load_animations(t_program *p, char *path, int n_animations, t_img *anima
 	}
 }
 
+void	ft_animation_init(t_program *p)
+{
+	ft_load_animations(p, "./textures/animation_test/left_arm/", 4, p->sprites.interact);
+	ft_load_animations(p, "./textures/animation_test/lantern/", 9, p->sprites.animations);
+	ft_load_animations(p, "./textures/animation_test/easter_egg/", 4, p->sprites.easter_egg);
+	ft_load_animations(p, "./textures/minimap/", 8, p->sprites.arrow);
+	ft_load_animations(p, "./textures/maze/portal/", 8, p->sprites.portal);
+	p->sprites.guide.img = mlx_xpm_file_to_image(p->mlx, "./textures/maze/door_closed.xpm", \
+	&p->sprites.guide.width, &p->sprites.guide.height);
+	p->sprites.guide.addr = mlx_get_data_addr(p->sprites.guide.img, &p->sprites.guide.bits_per_pixel, \
+	&p->sprites.guide.line_length, &p->sprites.guide.endian);
+}
+
 void	ft_img_init(t_program *p)
 {
-	//p->sprites.loop_an= false;
 	p->screen.img = mlx_new_image(p->mlx, WIDTH, HEIGHT);
 	p->screen.addr = mlx_get_data_addr(p->screen.img, \
 	&p->screen.bits_per_pixel, &p->screen.line_length, &p->screen.endian);
 	if (!p->screen.img)
 		ft_exit("Cannot open window");
-	ft_load_animations(p, "./textures/animation_test/", 9, p->sprites.animations);
-	ft_load_animations(p, "./textures/animation_test/easter_egg/", 4, p->sprites.easter_egg);
-	ft_load_animations(p, "./textures/minimap/", 8, p->sprites.arrow);
-	p->sprites.last_an = 0;
-	p->sprites.ceiling.img = 0;
-	p->sprites.floor.img = 0;
+	ft_animation_init(p);
 	p->sprites.north.img = 0;
 	p->sprites.south.img = 0;
 	p->sprites.west.img = 0;

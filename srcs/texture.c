@@ -6,11 +6,27 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:20:24 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/08 18:56:12 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/09 21:07:07 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+t_img	*ft_portal(t_program *p)
+{
+	static unsigned long int	last;
+
+	(void)last;
+	if (p->player.interact)
+	{
+		return (&p->sprites.portal[1]);
+	}
+	else
+	{
+		return (&p->sprites.door);
+	}
+	return (0);
+}
 
 t_img	*ft_pick_texture(t_program *p)
 {
@@ -19,6 +35,8 @@ t_img	*ft_pick_texture(t_program *p)
 	side_coll = p->ray.side;
 	if (p->map[p->ray.map_check.y][p->ray.map_check.x] == 'D')
 		return (&p->sprites.door);
+	if (p->ray.collision == 'L')
+		return (&p->sprites.portal[1]);
 	if (side_coll == 1 && p->ray.ray_dir.y <= 0)
 		return (&p->sprites.north);
 	if (side_coll == 1 && p->ray.ray_dir.y > 0)
@@ -39,6 +57,8 @@ unsigned int	ft_color_texture(t_program *p, t_img texture, t_ivector pixels, boo
 	double				scaling_factor;
 	char				*dst;
 
+	if (!texture.img)
+		return (0);
 	if (p->ray.perp_distance < 0.5)
 		scaling_factor = 1;
 	else
@@ -95,7 +115,7 @@ void	ft_draw_texture(t_program *p, int pixel)
 	int			plus;
 
 	texture = ft_pick_texture(p);
-	if (!texture)
+	if (!texture || !texture->img)
 		return ;
 	i = 0;
 	p->ray.height = abs((int)((double)HEIGHT / p->ray.perp_distance));
@@ -110,7 +130,7 @@ void	ft_draw_texture(t_program *p, int pixel)
 	{
 		text.y = ft_return_texty(texture, i, plus, p->ray.height);
 		my_mlx_pixel_put(&(p->screen), pixel, (HEIGHT - p->ray.height) / 2 + i, \
-		ft_color_texture(p, *texture, (t_ivector){text.x, text.y}, true));
+		ft_color_texture(p, *texture, (t_ivector){text.x, text.y}, false));
 		i++;
 	}
 }

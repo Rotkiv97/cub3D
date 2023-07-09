@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:25:50 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/07 15:48:51 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/09 17:36:35 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	ft_init_ray(t_program *p, int pixel)
 
 	ray = &p->ray;
 	ray->pixel = pixel;
+	ray->collision = 0;
 	ray->ray_dir = ft_ray_direction(p, pixel);
 	ray->scaling_factor = ft_scaling_factor(ray->ray_dir);
 	ray->ray_start = p->player.pos;

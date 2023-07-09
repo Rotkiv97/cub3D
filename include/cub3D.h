@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/08 19:21:42 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/09 20:55:31 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 # define FOV 0.66
 # define WIDTH 1920
-# define HEIGHT	1080
+# define HEIGHT 1080
 
 # define MOVESPEED 0.15
 # define ROTSPEED 1.5
@@ -81,6 +81,9 @@ typedef struct s_player
 	t_dvector	dir;
 	t_dvector	cam_plane;
 	bool		easter_egg;
+	bool		interact;
+	bool		rotating_rigth;
+	bool		rotating_left;
 	bool		moving_up;
 	bool		moving_down;
 	bool		moving_left;
@@ -90,17 +93,17 @@ typedef struct s_player
 
 typedef struct s_sprites
 {
-	int		last_an;
 	t_img	animations[9];
+	t_img	interact[4];
 	t_img	easter_egg[4];
 	t_img	arrow[8];
+	t_img	portal[8];
+	t_img	guide;
 	t_img	north;
 	t_img	south;
 	t_img	west;
 	t_img	east;
 	t_img	door;
-	t_img	ceiling;
-	t_img	floor;
 }t_sprites;
 
 typedef struct s_rayinfo
@@ -108,6 +111,7 @@ typedef struct s_rayinfo
 	int			pixel;
 	int			height;
 	int			side;
+	char		collision;
 	double		real_distance;
 	double		perp_distance;
 	t_ivector	step;

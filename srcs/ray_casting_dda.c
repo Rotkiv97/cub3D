@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/08 17:18:59 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/09 19:06:56 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ bool	ft_check_collision(t_program *p)
 	y = p->ray.map_check.y;
 	if (x >= 0 && y >= 0)
 	{
-		if (p->map[y][x] == '1' || p->map[y][x] == 'D')
+		if (ft_in_set(p->map[y][x], "D1LPU"))
+		{
+			p->ray.collision = p->map[y][x];
 			collision = true;
+		}
 	}
 	return (collision);
 }
@@ -75,6 +78,10 @@ void	ft_ray_casting(t_program *p)
 	int			pixel;
 
 	pixel = 0;
+	if (p->player.rotating_left)
+		ft_rotate_visual(p, ROTSPEED * 2.5, false);
+	else if (p->player.rotating_rigth)
+		ft_rotate_visual(p, ROTSPEED * 2.5, true);
 	while (pixel < WIDTH)
 	{
 		ft_init_ray(p, pixel);

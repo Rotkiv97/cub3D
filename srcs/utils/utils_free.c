@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:10:03 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/06 14:22:55 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/09 20:56:08 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,7 @@ void	ft_exit(char *error)
 
 void	ft_destroy_sprites(t_program *p)
 {
-	if (p->sprites.ceiling.img)
-		mlx_destroy_image(p->mlx, p->sprites.ceiling.img);
-	if (p->sprites.floor.img)
-		mlx_destroy_image(p->mlx, p->sprites.floor.img);
-	if (p->sprites.door.img)
-		mlx_destroy_image(p->mlx, p->sprites.door.img);	
+	mlx_destroy_image(p->mlx, p->sprites.door.img);	
 	mlx_destroy_image(p->mlx, p->sprites.east.img);
 	mlx_destroy_image(p->mlx, p->sprites.north.img);
 	mlx_destroy_image(p->mlx, p->sprites.south.img);

@@ -6,16 +6,17 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:58:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/08 17:17:18 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/09 19:06:04 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	ft_open_door(t_program *p)
+void	ft_interact(t_program *p)
 {
 	t_dvector	new_position;
 
+	p->player.interact = true;
 	new_position.x = p->player.pos.x + p->player.dir.x;
 	new_position.y = p->player.pos.y + p->player.dir.y;
 	if (p->map[(int)new_position.y][(int)new_position.x] == 'D')
@@ -69,6 +70,12 @@ int	ft_input_release(int key, void *program)
 		p->player.moving = false;
 	if (key == Q)
 		p->player.easter_egg = false;
+	if (key == E)
+		p->player.interact = false;
+	if (key == RIGHT)
+		p->player.rotating_rigth = false;
+	if (key == LEFT)
+		p->player.rotating_left = false;
 	return (0);
 }
 
@@ -96,10 +103,10 @@ int	ft_input(int key, void *program)
 	if (key == W || key == S || key == D || key == A)
 		ft_set_movement(p, key);
 	if (key == E)
-		ft_open_door(p);
-	if (key == LEFT)
-		ft_rotate_visual(p, 5, false);
+		ft_interact(p);
 	if (key == RIGHT)
-		ft_rotate_visual(p, 5, true);
+		p->player.rotating_rigth = true;
+	if (key == LEFT)
+		p->player.rotating_left = true;
 	return (0);
 }

@@ -10,6 +10,7 @@ SRC =		srcs/main.c \
 			srcs/minimap.c \
 			srcs/read_file.c \
 			srcs/draw_on_image.c \
+			srcs/animations.c \
 			srcs/texture.c \
 			srcs/event/key_hook.c \
 			srcs/event/ft_update.c \

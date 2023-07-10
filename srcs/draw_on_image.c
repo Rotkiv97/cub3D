@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 22:35:43 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/09 17:18:43 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 19:07:17 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,3 @@ void	ft_background(t_program *p, int pixel)
 		line--;
 	}
 }
-
-// 680 : 600

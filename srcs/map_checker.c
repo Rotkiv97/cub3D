@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 18:32:40 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 19:47:53 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_check_map_file(t_program *p)
 	while (p->file[y + k] && ft_strncmp(p->file[y + k], "\n", 2) \
 	&& p->file[y + k] != 0)
 	{
-		p->map[k] = ft_strdup(p->file[y + k]);
+		p->map[k] = ft_strtrim(p->file[y + k], "\t");
 		k++;
 	}
 	p->map[k] = 0;
@@ -80,9 +80,6 @@ void	ft_check_char(t_program *p)
 	y = -1;
 	chars = "10 NSWEDLPU\n";
 	flag = 0;
-	printf("mat : %p\n", p->map);
-	ft_print_mat(p->map, false);
-	printf("mat\n");
 	while (p->map[++y] != NULL)
 	{
 		x = 0;

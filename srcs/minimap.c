@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:49:58 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 16:03:26 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 20:13:28 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_draw_walls_minimap(t_program *p, t_ivector cell_size, int n_cell)
 				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0x006600);
 			else if (ft_in_set(p->map[iterator.y][iterator.x], "1\n\t\0 "))
 				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0x006600);
-			else if(ft_in_set(p->map[iterator.y][iterator.x], "0N"))
+			else if(ft_in_set(p->map[iterator.y][iterator.x], "0NWES"))
 				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0);
 			else if(ft_in_set(p->map[iterator.y][iterator.x], "D"))
 				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0xFF0000);
@@ -138,5 +138,4 @@ void	ft_draw_minimap(t_program *p)
 	cell_size.x = WIDTH / 7  / n_cell;
 	cell_size.y = HEIGHT  / 7 / n_cell;
 	ft_draw_walls_minimap(p, cell_size, n_cell);
-	//ft_draw_border(p, cell_size.x * n_cell, cell_size.y * n_cell);
 }

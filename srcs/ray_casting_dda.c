@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 14:58:17 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 20:19:24 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,6 @@ void	ft_ray_casting(t_program *p)
 	int			pixel;
 
 	pixel = 0;
-	if (p->player.rotating_left)
-		ft_rotate_visual(p, ROTSPEED * 2.5, false);
-	else if (p->player.rotating_rigth)
-		ft_rotate_visual(p, ROTSPEED * 2.5, true);
 	while (pixel < WIDTH)
 	{
 		ft_init_ray(p, pixel);
@@ -90,7 +86,4 @@ void	ft_ray_casting(t_program *p)
 		ft_background(p, pixel);
 		pixel++;
 	}
-	ft_draw_animation(p);
-	ft_draw_minimap(p);
-	mlx_put_image_to_window(p->mlx, p->window, p->screen.img, 0, 0);
 }

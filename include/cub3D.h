@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 15:33:06 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 19:15:47 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ void		ft_rotate_visual(t_program *p, double angle, bool clockwise);
 
 int			ft_mat_len(char **mat);
 char		**ft_copy_mat(char **mat);
+char		*ft_strchr_set(char *str, char *set);
 int			ft_in_set(char c, char *str);
 int			ft_close(t_program *p);
 

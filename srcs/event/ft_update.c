@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 18:15:28 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 16:09:45 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 20:44:29 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,47 @@ void	ft_mouse_visual(t_program *program, int frame)
 		mlx_mouse_get_pos(program->mlx, program->window, \
 		&new_mouse.x, &new_mouse.y);
 		if (program->mouse.x < new_mouse.x)
-			ft_rotate_visual(program, ROTSPEED * (new_mouse.x - program->mouse.x) * 0.1, true);
+			ft_rotate_visual(program, ROTSPEED * \
+			(new_mouse.x - program->mouse.x) * 0.1, true);
 		else if (program->mouse.x > new_mouse.x)
-			ft_rotate_visual(program, ROTSPEED * (program->mouse.x - new_mouse.x) * 0.1, false);
+			ft_rotate_visual(program, ROTSPEED * \
+			(program->mouse.x - new_mouse.x) * 0.1, false);
 		program->mouse.x = new_mouse.x;
 		program->mouse.y = new_mouse.y;
 		if (frame % 15 == 0)
 		{
-			program->mouse.x = WIDTH /2;
-			program->mouse.y = HEIGHT/2;
-			mlx_mouse_move(program->mlx, program->window, program->mouse.x, program->mouse.y);
+			program->mouse.x = WIDTH / 2;
+			program->mouse.y = HEIGHT / 2;
+			mlx_mouse_move(program->mlx, program->window, \
+			program->mouse.x, program->mouse.y);
 		}
 	}
+}
+
+t_dvector	ft_set_new_dir2(t_program *p, t_dvector dir)
+{
+	t_player	pl;
+
+	pl = p->player;
+	if (pl.moving_down && pl.moving_rigth)
+		return (ft_rotate_vector(pl.dir, 135, true));
+	else if (pl.moving_up && pl.moving_left)
+		return (ft_rotate_vector(pl.dir, 45, false));
+	else if (pl.moving_rigth && pl.moving_up)
+		return (ft_rotate_vector(pl.dir, 45, true));
+	else if (pl.moving_left && pl.moving_rigth)
+		return ((t_dvector){0, 0});
+	else if (pl.moving_down)
+		return (ft_rotate_vector(pl.dir, 180, true));
+	else if (pl.moving_up)
+		return (pl.dir);
+	else if (pl.moving_left)
+		return (ft_rotate_vector(pl.dir, 90, false));
+	else if (pl.moving_rigth)
+		return (ft_rotate_vector(pl.dir, 90, true));
+	else
+		return ((t_dvector){0, 0});
+	return (dir);
 }
 
 t_dvector	ft_set_new_dir(t_program *p)
@@ -42,38 +71,20 @@ t_dvector	ft_set_new_dir(t_program *p)
 
 	pl = p->player;
 	if (pl.moving_down && pl.moving_up && pl.moving_left && pl.moving_rigth)
-		dir = (t_dvector){0, 0};
+		return ((t_dvector){0, 0});
 	else if (pl.moving_down && pl.moving_up && pl.moving_left)
-		dir = ft_rotate_vector(pl.dir, 90, false);
+		return (ft_rotate_vector(pl.dir, 90, false));
 	else if (pl.moving_up && pl.moving_left && pl.moving_rigth)
-		dir = pl.dir;
+		return (pl.dir);
 	else if (pl.moving_down && pl.moving_left && pl.moving_rigth)
-		dir = ft_rotate_vector(pl.dir, 180, true);
+		return (ft_rotate_vector(pl.dir, 180, true));
 	else if (pl.moving_down && pl.moving_up && pl.moving_rigth)
-		dir = ft_rotate_vector(pl.dir, 90, true);
+		return (ft_rotate_vector(pl.dir, 90, true));
 	else if (pl.moving_down && pl.moving_up)
-		dir = (t_dvector){0, 0};
+		return ((t_dvector){0, 0});
 	else if (pl.moving_down && pl.moving_left)
-		dir = ft_rotate_vector(pl.dir, 135, false);
-	else if (pl.moving_down && pl.moving_rigth)
-		dir = ft_rotate_vector(pl.dir, 135, true);
-	else if (pl.moving_up && pl.moving_left)
-		dir = ft_rotate_vector(pl.dir, 45, false);
-	else if (pl.moving_rigth && pl.moving_up)
-		dir = ft_rotate_vector(pl.dir, 45, true);
-	else if (pl.moving_left && pl.moving_rigth)
-		dir = (t_dvector){0, 0};
-	else if (pl.moving_down)
-		dir = ft_rotate_vector(pl.dir, 180, true);
-	else if (pl.moving_up)
-		dir = pl.dir;
-	else if (pl.moving_left)
-		dir = ft_rotate_vector(pl.dir, 90, false);
-	else if (pl.moving_rigth)
-		dir = ft_rotate_vector(pl.dir, 90, true);
-	else
-		dir = (t_dvector){0, 0};
-	return (dir);
+		return (ft_rotate_vector(pl.dir, 135, false));
+	return (ft_set_new_dir2(p, dir));
 }
 
 void	ft_move(t_program *p)
@@ -81,20 +92,16 @@ void	ft_move(t_program *p)
 	t_dvector	mov_dir;
 	t_ivector	n;
 	t_ivector	pos;
-	char		*walls;
 
-	walls = "1DLP";
-	pos.x = (int)p->player.pos.x;
-	pos.y = (int)p->player.pos.y;
+	pos = (t_ivector){(int)p->player.pos.x, (int)p->player.pos.y};
 	mov_dir = ft_set_new_dir(p);
 	n.x = (int)(p->player.pos.x + mov_dir.x * (double)MOVESPEED);
 	n.y = (int)(p->player.pos.y + mov_dir.y * (double)MOVESPEED);
-	(void)pos;
-	if (ft_in_set(p->map[n.y][n.x], walls))
+	if (ft_in_set(p->map[n.y][n.x], "1LDP"))
 	{
-		if (!ft_in_set(p->map[pos.y][n.x], walls))
+		if (!ft_in_set(p->map[pos.y][n.x], "1LDP"))
 			p->player.pos.x = p->player.pos.x + mov_dir.x * (double)MOVESPEED;
-		else if (!ft_in_set(p->map[n.y][pos.x], walls))
+		else if (!ft_in_set(p->map[n.y][pos.x], "1LDP"))
 			p->player.pos.y = p->player.pos.y + mov_dir.y * (double)MOVESPEED;
 	}
 	else if (p->map[n.y][n.x] == 'U')
@@ -107,7 +114,6 @@ void	ft_move(t_program *p)
 		p->player.pos.x = p->player.pos.x + mov_dir.x * (double)MOVESPEED;
 		p->player.pos.y = p->player.pos.y + mov_dir.y * (double)MOVESPEED;
 	}
-
 }
 
 void	ft_fps(t_program *p, time_t start, time_t end)
@@ -131,23 +137,30 @@ void	ft_fps(t_program *p, time_t start, time_t end)
 	free(tmp);
 }
 
-int	ft_update(void *p)
+int	ft_update(void *program)
 {
 	static long long int	i;
-	t_program				*program;
+	t_program				*p;
 	time_t					start;
 	time_t					end;
 
-	program = p;
-	program->frame = i;
+	p = (t_program *)program;
+	p->frame = i;
 	start = ft_return_time();
-	ft_mouse_visual(program, i++);
-	if (program->player.moving)
-		ft_move(program);
-	if (program->player.interact)
+	ft_mouse_visual(p, i++);
+	if (p->player.rotating_left)
+		ft_rotate_visual(p, ROTSPEED * 2.5, false);
+	else if (p->player.rotating_rigth)
+		ft_rotate_visual(p, ROTSPEED * 2.5, true);
+	if (p->player.moving)
+		ft_move(p);
+	if (p->player.interact)
 		ft_change_portal(program);
-	ft_ray_casting(program);
+	ft_ray_casting(p);
+	ft_draw_animation(p);
+	ft_draw_minimap(p);
+	mlx_put_image_to_window(p->mlx, p->window, p->screen.img, 0, 0);
 	end = ft_return_time();
-	ft_fps(program, start, end);
+	ft_fps(p, start, end);
 	return (0);
 }

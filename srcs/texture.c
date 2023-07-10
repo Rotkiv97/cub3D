@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:20:24 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 17:09:17 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 20:22:13 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ unsigned int	ft_color_texture(t_program *p, t_img texture, t_ivector pixels, boo
 	dst = texture.addr + ((pixels.y) * texture.line_length + pixels.x * \
 	(texture.bits_per_pixel / 8));
 	color = *(unsigned int *)dst;
-	if (darker)
+	if (darker && !ft_in_set(p->ray.collision, "LUP"))
 	{
 		r = (color >> 16) & 0xFF;
 		r = (unsigned char)(r * scaling_factor);

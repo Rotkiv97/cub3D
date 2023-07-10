@@ -6,21 +6,59 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 17:26:08 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 21:01:57 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	ft_player_init(t_program *p)
+void	ft_player_direction(t_program *p, char player)
 {
-	char	**map;
+	if (player == 'N')
+	{
+		p->player.dir = (t_dvector){0, -1};
+		p->player.cam_plane = (t_dvector){(double)FOV, 0};
+	}
+	else if (player == 'S')
+	{
+		p->player.dir = (t_dvector){0, 1};
+		p->player.cam_plane = (t_dvector){(double)(-FOV), 0};
+	}
+	else if (player == 'E')
+	{
+		p->player.dir = (t_dvector){1, 0};
+		p->player.cam_plane = (t_dvector){0, FOV};
+	}
+	else if (player == 'W')
+	{
+		p->player.dir = (t_dvector){-1, 0};
+		p->player.cam_plane = (t_dvector){0, -FOV};
+	}
+}
+
+void	ft_player_position(t_program *p)
+{
 	int		i;
+	char	player;
 
 	i = 0;
-	map = (p->map);
-	p->player.dir = (t_dvector){0, -1};
-	p->player.cam_plane = (t_dvector){(double)FOV, 0};
+	while (p->map[i])
+	{
+		if (ft_strchr_set(p->map[i], "NSWE"))
+		{
+			p->player.pos = (t_dvector) \
+			{ft_strchr_set(p->map[i], "NSWE") - p->map[i] + 0.5, i + 0.5};
+			break ;
+		}
+		i++;
+	}
+	player = *ft_strchr_set(p->map[i], "NSWE");
+	ft_player_direction(p, player);
+	
+}
+
+void	ft_player_init(t_program *p)
+{
 	p->player.interact = false;
 	p->player.moving_up = false;
 	p->player.moving_down = false;
@@ -30,16 +68,18 @@ void	ft_player_init(t_program *p)
 	p->player.moving = false;
 	p->player.rotating_left = false;
 	p->player.rotating_rigth = false;
-	while (map[i])
-	{
-		if (ft_strchr(map[i], 'N'))
-		{
-			p->player.pos = (t_dvector){ft_strchr(map[i], 'N') - map[i] \
-			+ 0.5, i + 0.5};
-			break ;
-		}
-		i++;
-	}
+	ft_player_position(p);
+}
+
+t_img	ft_open_xpm(t_program *p, char *path)
+{
+	t_img	img;
+
+	img.img = mlx_xpm_file_to_image(p->mlx, path, &img.width, &img.height);
+	if (img.img)
+		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, \
+		&img.line_length, &img.endian);
+	return (img);
 }
 
 void	ft_load_animations(t_program *p, char *path, int n_animations, t_img *animations)
@@ -55,21 +95,12 @@ void	ft_load_animations(t_program *p, char *path, int n_animations, t_img *anima
 		itoa = ft_itoa(i + 1); 
 		tmp = ft_strjoin(itoa , ".xpm");
 		full_path = ft_strjoin(path, tmp);
-		animations[i].img = \
-		mlx_xpm_file_to_image(p->mlx, full_path, \
-		&animations[i].width, &animations[i].height);
+		animations[i] = ft_open_xpm(p, full_path);
 		free(itoa);
 		free(tmp);
-		if (!animations[i].img)
-		{
-			printf("%s", full_path);
-			free(full_path);
-			ft_exit(" : animation not found!");
-		}
 		free(full_path);
-		animations[i].addr = mlx_get_data_addr(animations[i].img,\
-		&animations[i].bits_per_pixel, &animations[i].line_length, \
-		&animations[i].endian);
+		if (!animations[i].img)
+			ft_exit(" : animation not found!");
 		i++;
 	}
 }
@@ -82,18 +113,9 @@ void	ft_animation_init(t_program *p)
 	ft_load_animations(p, "./textures/minimap/", 8, p->sprites.arrow);
 	ft_load_animations(p, "./textures/maze/portal/", 8, p->sprites.portal);
 	p->sprites.current_portal = 0;
-	p->sprites.door.img = mlx_xpm_file_to_image(p->mlx, "./textures/maze/door.xpm", \
-	&p->sprites.door.width, &p->sprites.door.height);
-	p->sprites.door.addr = mlx_get_data_addr(p->sprites.door.img, &p->sprites.door.bits_per_pixel, \
-	&p->sprites.door.line_length, &p->sprites.door.endian);
-	p->sprites.guide.img = mlx_xpm_file_to_image(p->mlx, "./textures/maze/guide.xpm", \
-	&p->sprites.guide.width, &p->sprites.guide.height);
-	p->sprites.guide.addr = mlx_get_data_addr(p->sprites.guide.img, &p->sprites.guide.bits_per_pixel, \
-	&p->sprites.guide.line_length, &p->sprites.guide.endian);
-	p->sprites.home.img = mlx_xpm_file_to_image(p->mlx, "./textures/maze/home.xpm", \
-	&p->sprites.home.width, &p->sprites.home.height);
-	p->sprites.home.addr = mlx_get_data_addr(p->sprites.home.img, &p->sprites.home.bits_per_pixel, \
-	&p->sprites.home.line_length, &p->sprites.home.endian);
+	p->sprites.door = ft_open_xpm(p, "./textures/maze/door.xpm");
+	p->sprites.guide = ft_open_xpm(p, "./textures/maze/guide.xpm");
+	p->sprites.home = ft_open_xpm(p, "./textures/maze/home.xpm");
 }
 
 void	ft_img_init(t_program *p)

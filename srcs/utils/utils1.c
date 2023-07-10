@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:25:08 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 16:09:41 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 21:02:50 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,22 @@ int	ft_in_set(char c, char *str)
 	{
 		if (str[i] == c)
 			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char	*ft_strchr_set(char *str, char *set)
+{
+	int		i;
+
+	if (!str || !set)
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (ft_in_set(str[i], set))
+			return (&str[i]);
 		i++;
 	}
 	return (0);

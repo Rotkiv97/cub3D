@@ -46,7 +46,7 @@ char	**ft_copy_mat(char **mat)
 		cpy[i] = ft_strdup(mat[i]);
 		i++;
 	}
-	return(cpy);
+	return (cpy);
 }
 
 int	ft_in_set(char c, char *str)
@@ -76,13 +76,5 @@ char	*ft_strchr_set(char *str, char *set)
 			return (&str[i]);
 		i++;
 	}
-	return (0);
-}
-
-int	ft_close(t_program *p)
-{
-	mlx_do_key_autorepeaton(p->mlx);
-	ft_free_program(p);
-	exit(0);
 	return (0);
 }

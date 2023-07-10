@@ -4,6 +4,7 @@ NAME = cub3D
 # Source directories
 STCDIR = srcs
 SRC =		srcs/main.c \
+			srcs/init.c \
 			srcs/map_checker.c \
 			srcs/ray_init.c \
 			srcs/ray_casting_dda.c \

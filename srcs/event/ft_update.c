@@ -116,27 +116,6 @@ void	ft_move(t_program *p)
 	}
 }
 
-void	ft_fps(t_program *p, time_t start, time_t end)
-{
-	int		fps;
-	time_t	new_end;
-	char	*itoa;
-	char	*tmp;
-
-	fps = (int)((double)1000 / (end - start));
-	if (fps > 60)
-	{
-		new_end = (time_t)((double)1000 / (60) + start);
-		usleep((new_end - end) * 1000);
-		fps = (int)((double)1000 / (new_end - start));
-	}
-	itoa = ft_itoa(fps);
-	tmp = ft_strjoin("FPS : ", itoa);
-	mlx_string_put(p->mlx, p->window, WIDTH / 2, HEIGHT / 50, 0xFF00000, tmp);
-	free(itoa);
-	free(tmp);
-}
-
 int	ft_update(void *program)
 {
 	static long long int	i;

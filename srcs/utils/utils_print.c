@@ -25,13 +25,11 @@ void	ft_putstrerr(char *s)
 void	ft_print_vector(void *v, bool doubl)
 {
 	if (doubl)
-	{
-		printf("FloatVector x = %f, y = %f\n", ((t_dvector *)(v))->x, ((t_dvector *)(v))->y);
-	}
+		printf("FloatVector x = %f, y = %f\n", \
+		((t_dvector *)(v))->x, ((t_dvector *)(v))->y);
 	else
-	{
-		printf("FloatVector x = %d, y = %d\n", ((t_ivector *)(v))->x, ((t_ivector *)(v))->y);
-	}
+		printf("FloatVector x = %d, y = %d\n", \
+		((t_ivector *)(v))->x, ((t_ivector *)(v))->y);
 }
 
 void	ft_print_mat(char **mat, bool new_line)
@@ -44,7 +42,28 @@ void	ft_print_mat(char **mat, bool new_line)
 	if (new_line == true)
 		while (mat[i])
 			printf("%s\n", mat[i++]);
-	 else
+	else
 		while (mat[i])
 			printf("%s", mat[i++]);
+}
+
+void	ft_fps(t_program *p, time_t start, time_t end)
+{
+	int		fps;
+	time_t	new_end;
+	char	*itoa;
+	char	*tmp;
+
+	fps = (int)((double)1000 / (end - start));
+	if (fps > 60)
+	{
+		new_end = (time_t)((double)1000 / (60) + start);
+		usleep((new_end - end) * 1000);
+		fps = (int)((double)1000 / (new_end - start));
+	}
+	itoa = ft_itoa(fps);
+	tmp = ft_strjoin("FPS : ", itoa);
+	mlx_string_put(p->mlx, p->window, WIDTH / 2, HEIGHT / 50, 0xFF00000, tmp);
+	free(itoa);
+	free(tmp);
 }

@@ -14,14 +14,15 @@
 
 void	ft_change_portal(t_program *p)
 {
-	t_dvector	new_position;
+	t_dvector			new_position;
 	static time_t		time;
 	time_t				check;
 
 	new_position.x = p->player.pos.x + p->player.dir.x;
 	new_position.y = p->player.pos.y + p->player.dir.y;
 	check = ft_return_time();
-	if (p->map[(int)new_position.y][(int)new_position.x] == 'L' && (check - time) > 100)
+	if (p->map[(int)new_position.y][(int)new_position.x] == 'L' \
+	&& (check - time) > 100)
 	{
 		p->sprites.current_portal = p->sprites.current_portal;
 		p->sprites.current_portal++;

@@ -12,7 +12,8 @@
 
 #include "cub3D.h"
 
-void	ft_fill_cell_minimap(t_program *p, t_ivector position, t_ivector cell_size, int color)
+void	ft_fill_cell_minimap(t_program *p, t_ivector position, \
+t_ivector cell_size, int color)
 {
 	int	i;
 	int	j;
@@ -24,7 +25,8 @@ void	ft_fill_cell_minimap(t_program *p, t_ivector position, t_ivector cell_size,
 		j = 0;
 		while (j <= cell_size.y)
 		{
-			my_mlx_pixel_put(&(p->screen), i + position.x, j + position.y, color);
+			my_mlx_pixel_put(&(p->screen), i + position.x, j + \
+			position.y, color);
 			j++;
 		}
 		i++;
@@ -34,7 +36,7 @@ void	ft_fill_cell_minimap(t_program *p, t_ivector position, t_ivector cell_size,
 void	ft_draw_arrow(t_program *p, t_ivector position, t_ivector size)
 {
 	static int			texture;
- 	t_dvector	d;
+	t_dvector			d;
 
 	d = (t_dvector){p->player.dir.x, p->player.dir.y};
 	if (d.x > 0.86602540378)
@@ -68,11 +70,10 @@ void	ft_draw_walls_minimap(t_program *p, t_ivector cell_size, int n_cell)
 	t_ivector	iterator;
 	int			mat_len;
 
-	(void)n_cell;
-	(void)cell_size;
 	mat_len = ft_mat_len(p->map);
 	n_position = (t_ivector){(int)p->player.pos.x, (int)p->player.pos.y};
-	iterator = (t_ivector){n_position.x - n_cell / 2, n_position.y - n_cell / 2};
+	iterator = (t_ivector){n_position.x - n_cell / 2, \
+	n_position.y - n_cell / 2};
 	i = 0;
 	j = 0;
 	while (i < n_cell)
@@ -80,11 +81,9 @@ void	ft_draw_walls_minimap(t_program *p, t_ivector cell_size, int n_cell)
 		j = 0;
 		while (j < n_cell)
 		{
-			if (iterator.y < 0 || iterator.y > mat_len - 1)
-				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0x006600);
-			else if (iterator.x < 0 || iterator.x > (int)ft_strlen(p->map[iterator.y]) - 1)
-				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0x006600);
-			else if (ft_in_set(p->map[iterator.y][iterator.x], "1\n\t\0 "))
+			if ((iterator.y < 0 || iterator.y > mat_len - 1) || (iterator.x < 0 || \
+			iterator.x > (int)ft_strlen(p->map[iterator.y]) - 1) || \
+			(ft_in_set(p->map[iterator.y][iterator.x], "1\n\t\0 ")))
 				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0x006600);
 			else if(ft_in_set(p->map[iterator.y][iterator.x], "0NWES"))
 				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0);
@@ -135,7 +134,7 @@ void	ft_draw_minimap(t_program *p)
 	int			n_cell;
 
 	n_cell = 11;
-	cell_size.x = WIDTH / 7  / n_cell;
-	cell_size.y = HEIGHT  / 7 / n_cell;
+	cell_size.x = WIDTH / 7 / n_cell;
+	cell_size.y = HEIGHT / 7 / n_cell;
 	ft_draw_walls_minimap(p, cell_size, n_cell);
 }

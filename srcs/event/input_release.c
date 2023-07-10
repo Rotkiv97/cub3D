@@ -15,10 +15,10 @@
 bool	ft_check_movement(t_program *p)
 {
 	bool	moving;
-	
+
 	moving = false;
-	if (p->player.moving_down || p->player.moving_left || p->player.moving_rigth \
-	|| p->player.moving_up)
+	if (p->player.moving_down || p->player.moving_left || \
+	p->player.moving_rigth || p->player.moving_up)
 		moving = true;
 	return (moving);
 }
@@ -34,7 +34,7 @@ void	ft_check_portal(t_program *p)
 		return ;
 	}
 	if (p->sprites.easter_done)
-		return;
+		return ;
 	i = 0;
 	j = 0;
 	p->sprites.easter_done = true;

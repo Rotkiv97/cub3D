@@ -27,8 +27,8 @@
 # define PI 3.1415926535
 
 # define FOV 0.66
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 800
+# define HEIGHT 600
 
 # define MOVESPEED 0.15
 # define ROTSPEED 1.5
@@ -144,6 +144,10 @@ typedef struct s_program
 	t_player		player;
 }t_program;
 
+/*	init.c	*/
+
+void	ft_program_init(t_program *p, char *file_path);
+
 /*	minimap.c	*/
 
 void		ft_fill_cell_minimap(t_program *p, t_ivector position, t_ivector cell_size, int color);
@@ -216,6 +220,7 @@ int			ft_close(t_program *p);
 void		ft_putstrerr(char *s);
 void		ft_print_vector(void *v, bool doubl);
 void		ft_print_mat(char **mat, bool new_line);
+void		ft_fps(t_program *p, time_t start, time_t end);
 
 /*	project_path/srcs/utils/utils_free.c	*/
 

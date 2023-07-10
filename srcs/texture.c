@@ -36,24 +36,23 @@ t_img	*ft_pick_texture(t_program *p)
 	return (0);
 }
 
-unsigned int	ft_color_texture(t_program *p, t_img texture, t_ivector pixels, bool darker)
+unsigned int	ft_color_texture(t_program *p, t_img t, \
+t_ivector pixels, bool darker)
 {
 	unsigned int		color;
 	unsigned char		r;
 	unsigned char		g;
 	unsigned char		b;
 	double				scaling_factor;
-	char				*dst;
 
-	if (!texture.img)
+	if (!t.img)
 		return (0);
 	if (p->ray.perp_distance < 0.5)
 		scaling_factor = 1;
 	else
 		scaling_factor = 1 / (p->ray.perp_distance * 2);
-	dst = texture.addr + ((pixels.y) * texture.line_length + pixels.x * \
-	(texture.bits_per_pixel / 8));
-	color = *(unsigned int *)dst;
+	color = *(unsigned int *)(t.addr + ((pixels.y) * t.line_length + pixels.x * \
+	(t.bits_per_pixel / 8)));
 	if (darker && !ft_in_set(p->ray.collision, "LUP"))
 	{
 		r = (color >> 16) & 0xFF;
@@ -78,7 +77,7 @@ int	ft_return_textx(t_program *p, t_img *texture)
 		wall_hit = p->player.pos.x + p->ray.perp_distance * p->ray.ray_dir.x;
 	wall_hit -= floor(wall_hit);
 	text_x = (int)((1 - wall_hit) * (double)texture->width);
-	 if (p->ray.side == 0 && p->ray.ray_dir.x > 0)
+	if (p->ray.side == 0 && p->ray.ray_dir.x > 0)
 		text_x = (double)texture->width - text_x - 1;
 	if (p->ray.side == 1 && p->ray.ray_dir.y < 0)
 		text_x = (double)texture->width - text_x - 1;
@@ -91,7 +90,8 @@ int	ft_return_texty(t_img *texture, int i, int plus, int height)
 {
 	int	texty;
 
-	texty = (int)round((double)(((double)i + (double)plus / 2) * (double)texture->height / (double)(height + plus)));
+	texty = (int)round((double)(((double)i + (double)plus / 2) * \
+	(double)texture->height / (double)(height + plus)));
 	if (texty > texture->height)
 		texty = 0;
 	return (texty);
@@ -120,7 +120,8 @@ void	ft_draw_texture(t_program *p, int pixel)
 	{
 		text.y = ft_return_texty(texture, i, plus, p->ray.height);
 		my_mlx_pixel_put(&(p->screen), pixel, (HEIGHT - p->ray.height) / 2 + i, \
-		ft_color_texture(p, *texture, (t_ivector){text.x, text.y}, !p->sprites.easter_done));
+		ft_color_texture(p, *texture, (t_ivector){text.x, text.y}, \
+		!p->sprites.easter_done));
 		i++;
 	}
 }

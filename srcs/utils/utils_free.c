@@ -39,7 +39,7 @@ void	ft_exit(char *error)
 
 void	ft_destroy_sprites(t_program *p)
 {
-	mlx_destroy_image(p->mlx, p->sprites.door.img);	
+	mlx_destroy_image(p->mlx, p->sprites.door.img);
 	mlx_destroy_image(p->mlx, p->sprites.east.img);
 	mlx_destroy_image(p->mlx, p->sprites.north.img);
 	mlx_destroy_image(p->mlx, p->sprites.south.img);

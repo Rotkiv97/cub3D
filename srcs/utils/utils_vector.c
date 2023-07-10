@@ -28,5 +28,6 @@ t_dvector	ft_rotate_vector(t_dvector vector, double angle, bool clockwise)
 void	ft_rotate_visual(t_program *p, double angle, bool clockwise)
 {
 	p->player.dir = ft_rotate_vector(p->player.dir, angle, clockwise);
-	p->player.cam_plane = ft_rotate_vector(p->player.cam_plane, angle, clockwise);
+	p->player.cam_plane = ft_rotate_vector(p->player.cam_plane, angle, \
+	clockwise);
 }

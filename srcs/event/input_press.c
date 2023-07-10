@@ -66,3 +66,11 @@ int	ft_input(int key, void *program)
 		p->player.rotating_left = true;
 	return (0);
 }
+
+int	ft_close(t_program *p)
+{
+	mlx_do_key_autorepeaton(p->mlx);
+	ft_free_program(p);
+	exit(0);
+	return (0);
+}

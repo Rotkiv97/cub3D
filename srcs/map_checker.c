@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/09 16:28:33 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 18:32:40 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_check_map_file(t_program *p)
 	k = 0;
 	while (p->file[y])
 	{
-		if (p->file[y][0] == ' ' || p->file[y][0] == '1')
+		if (p->file[y][0] == ' ' || p->file[y][0] == '1' || p->file[y][0] == '\t')
 		{
 			while (p->file[y + k] != 0 && ft_strncmp(p->file[y + k], "\n", 2))
 				k++;
@@ -68,8 +68,6 @@ void	ft_check_map_file(t_program *p)
 	p->map[k] = 0;
 }
 
-
-
 /* controlliamo i caratteri */
 
 void	ft_check_char(t_program *p)
@@ -80,11 +78,11 @@ void	ft_check_char(t_program *p)
 	int		flag;
 
 	y = -1;
-	chars = "10 NSWEDOLPU\n";
+	chars = "10 NSWEDLPU\n";
 	flag = 0;
-	//printf("mat : %p\n", p->map);
-	//ft_print_mat(p->map, false);
-	//printf("mat\n");
+	printf("mat : %p\n", p->map);
+	ft_print_mat(p->map, false);
+	printf("mat\n");
 	while (p->map[++y] != NULL)
 	{
 		x = 0;
@@ -92,7 +90,7 @@ void	ft_check_char(t_program *p)
 		{
 			if (ft_in_set(p->map[y][x], chars))
 			{
-				if (ft_in_set(p->map[y][x], "N") == 1)
+				if (ft_in_set(p->map[y][x], "NSEW") == 1)
 					flag += 1;
 				x++;
 			}
@@ -153,7 +151,7 @@ void	ft_check_map_last_00(char **map, int y, int size)
 	int		x;
 
 	x = 0;
-	chars = "NP0";
+	chars = "NP0DULSWE";
 	while (map[y][x])
 	{
 		if (y != 0 || y != size - 1)

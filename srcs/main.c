@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/09 20:55:49 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:26:08 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,24 @@ void	ft_load_animations(t_program *p, char *path, int n_animations, t_img *anima
 
 void	ft_animation_init(t_program *p)
 {
-	ft_load_animations(p, "./textures/animation_test/left_arm/", 4, p->sprites.interact);
-	ft_load_animations(p, "./textures/animation_test/lantern/", 9, p->sprites.animations);
-	ft_load_animations(p, "./textures/animation_test/easter_egg/", 4, p->sprites.easter_egg);
+	ft_load_animations(p, "./textures/animations/left_arm/", 4, p->sprites.interact);
+	ft_load_animations(p, "./textures/animations/lantern/", 9, p->sprites.animations);
+	ft_load_animations(p, "./textures/animations/easter_egg/", 4, p->sprites.easter_egg);
 	ft_load_animations(p, "./textures/minimap/", 8, p->sprites.arrow);
 	ft_load_animations(p, "./textures/maze/portal/", 8, p->sprites.portal);
-	p->sprites.guide.img = mlx_xpm_file_to_image(p->mlx, "./textures/maze/door_closed.xpm", \
+	p->sprites.current_portal = 0;
+	p->sprites.door.img = mlx_xpm_file_to_image(p->mlx, "./textures/maze/door.xpm", \
+	&p->sprites.door.width, &p->sprites.door.height);
+	p->sprites.door.addr = mlx_get_data_addr(p->sprites.door.img, &p->sprites.door.bits_per_pixel, \
+	&p->sprites.door.line_length, &p->sprites.door.endian);
+	p->sprites.guide.img = mlx_xpm_file_to_image(p->mlx, "./textures/maze/guide.xpm", \
 	&p->sprites.guide.width, &p->sprites.guide.height);
 	p->sprites.guide.addr = mlx_get_data_addr(p->sprites.guide.img, &p->sprites.guide.bits_per_pixel, \
 	&p->sprites.guide.line_length, &p->sprites.guide.endian);
+	p->sprites.home.img = mlx_xpm_file_to_image(p->mlx, "./textures/maze/home.xpm", \
+	&p->sprites.home.width, &p->sprites.home.height);
+	p->sprites.home.addr = mlx_get_data_addr(p->sprites.home.img, &p->sprites.home.bits_per_pixel, \
+	&p->sprites.home.line_length, &p->sprites.home.endian);
 }
 
 void	ft_img_init(t_program *p)
@@ -99,7 +108,6 @@ void	ft_img_init(t_program *p)
 	p->sprites.south.img = 0;
 	p->sprites.west.img = 0;
 	p->sprites.east.img = 0;
-	p->sprites.door.img = 0;
 	p->ceil_color = 0;
 	p->floor_color = 0;
 	
@@ -116,6 +124,7 @@ void	ft_program_init(t_program *p, char *file_path)
 	p->window = mlx_new_window(p->mlx, WIDTH, HEIGHT, "cub3D");
 	ft_player_init(p);
 	mlx_mouse_get_pos(p->mlx, p->window, &p->mouse.x, &p->mouse.y);
+	p->sprites.easter_done = false;
 	p->pause = 0;
 	p->frame = 0;
 	p->fov = FOV;
@@ -128,6 +137,7 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		ft_program_init(&p, av[1]);
+		mlx_do_key_autorepeatoff(p.mlx);
 		mlx_hook(p.window, 2, 1L << 0, ft_input, &p);
 		mlx_hook(p.window, 3, 1L << 1, ft_input_release, &p);
 		mlx_hook(p.window, 17, 0, ft_close, &p);

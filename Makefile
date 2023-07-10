@@ -12,8 +12,10 @@ SRC =		srcs/main.c \
 			srcs/draw_on_image.c \
 			srcs/animations.c \
 			srcs/texture.c \
-			srcs/event/key_hook.c \
+			srcs/event/input_press.c \
+			srcs/event/input_release.c \
 			srcs/event/ft_update.c \
+			srcs/event/easter_egg.c \
 
 SRC_GNL =	srcs/get_next_line/get_next_line_bonus.c \
 			srcs/get_next_line/get_next_line_utils_bonus.c

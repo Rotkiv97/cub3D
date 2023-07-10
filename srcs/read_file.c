@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 19:24:52 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/09 21:03:48 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 18:19:27 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_open_texture(t_program *p, char *texture, char c, bool needed)
 	t_img	img;
 
 	trim = ft_strtrim(texture, " \t\n");
-	printf("%s\n", trim);
 	if (!trim)
 		return ;
 	img.img = mlx_xpm_file_to_image(p->mlx, trim, &img.width, &img.height);
@@ -36,8 +35,6 @@ void	ft_open_texture(t_program *p, char *texture, char c, bool needed)
 		p->sprites.east = img;
 	else if (c == 'W')
 		p->sprites.west = img;
-	else if (c == 'D')
-		p->sprites.door = img;
 }
 
 void	ft_read_color(t_program *p)
@@ -98,8 +95,6 @@ void	ft_read_file(t_program *p)
 			ft_open_texture(p, ft_strnstr(p->file[i], "WE ", 4) + 3, 'W', true);
 		else if (ft_strnstr(p->file[i], "EA ", 4))
 			ft_open_texture(p, ft_strnstr(p->file[i], "EA ", 4) + 3, 'E', true);
-		else if (ft_strnstr(p->file[i], "DO ", 4))
-			ft_open_texture(p, ft_strnstr(p->file[i], "DO ", 4) + 3, 'D', true);
 		i++;
 	}
 }

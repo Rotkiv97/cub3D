@@ -6,11 +6,19 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:25:08 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/04 14:47:42 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:09:41 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+long int	ft_return_time(void)
+{
+	struct timeval		tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
 
 int	ft_mat_len(char **mat)
 {
@@ -57,6 +65,7 @@ int	ft_in_set(char c, char *str)
 
 int	ft_close(t_program *p)
 {
+	mlx_do_key_autorepeaton(p->mlx);
 	ft_free_program(p);
 	exit(0);
 	return (0);

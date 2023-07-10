@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/09 20:55:31 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:33:06 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ typedef struct s_sprites
 	t_img	easter_egg[4];
 	t_img	arrow[8];
 	t_img	portal[8];
+	int		current_portal;
+	bool	easter_done;
 	t_img	guide;
+	t_img	home;
 	t_img	north;
 	t_img	south;
 	t_img	west;
@@ -166,6 +169,7 @@ void		ft_map_checker(t_program *p, char *file_path);
 
 /*	project_path/event/ft_update.c	*/
 
+long int	ft_return_time(void);
 int			ft_update(void *program);
 
 /*	project_path/event/key_hook.c	*/
@@ -175,6 +179,10 @@ void		ft_move(t_program *p);
 void		ft_move_player(t_program *p, int key);
 int			ft_input_release(int key, void *program);
 int			ft_input(int key, void *program);
+
+/*	srcs/event/easter_egg	*/
+
+void		ft_change_portal(t_program *p);
 
 /*	init_ray.c	*/
 

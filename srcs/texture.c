@@ -6,27 +6,11 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:20:24 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/09 21:07:07 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:09:17 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-t_img	*ft_portal(t_program *p)
-{
-	static unsigned long int	last;
-
-	(void)last;
-	if (p->player.interact)
-	{
-		return (&p->sprites.portal[1]);
-	}
-	else
-	{
-		return (&p->sprites.door);
-	}
-	return (0);
-}
 
 t_img	*ft_pick_texture(t_program *p)
 {
@@ -36,7 +20,11 @@ t_img	*ft_pick_texture(t_program *p)
 	if (p->map[p->ray.map_check.y][p->ray.map_check.x] == 'D')
 		return (&p->sprites.door);
 	if (p->ray.collision == 'L')
-		return (&p->sprites.portal[1]);
+		return (&p->sprites.portal[p->sprites.current_portal]);
+	if (p->ray.collision == 'P')
+		return (&p->sprites.guide);
+	if (p->ray.collision == 'U')
+		return (&p->sprites.home);
 	if (side_coll == 1 && p->ray.ray_dir.y <= 0)
 		return (&p->sprites.north);
 	if (side_coll == 1 && p->ray.ray_dir.y > 0)
@@ -89,11 +77,13 @@ int	ft_return_textx(t_program *p, t_img *texture)
 	else
 		wall_hit = p->player.pos.x + p->ray.perp_distance * p->ray.ray_dir.x;
 	wall_hit -= floor(wall_hit);
-	text_x = (int)(wall_hit * (double)texture->width);
-	if (p->ray.side == 0 && p->ray.ray_dir.x > 0)
+	text_x = (int)((1 - wall_hit) * (double)texture->width);
+	 if (p->ray.side == 0 && p->ray.ray_dir.x > 0)
 		text_x = (double)texture->width - text_x - 1;
 	if (p->ray.side == 1 && p->ray.ray_dir.y < 0)
 		text_x = (double)texture->width - text_x - 1;
+	if (text_x > texture->width)
+		text_x = 0;
 	return (text_x);
 }
 
@@ -101,9 +91,9 @@ int	ft_return_texty(t_img *texture, int i, int plus, int height)
 {
 	int	texty;
 
-	texty = (int)round((double)(((double)i + (double)plus / 2) * \
-	(double)texture->height / (double)(height + plus))) & \
-	(texture->height - 1);
+	texty = (int)round((double)(((double)i + (double)plus / 2) * (double)texture->height / (double)(height + plus)));
+	if (texty > texture->height)
+		texty = 0;
 	return (texty);
 }
 
@@ -130,7 +120,7 @@ void	ft_draw_texture(t_program *p, int pixel)
 	{
 		text.y = ft_return_texty(texture, i, plus, p->ray.height);
 		my_mlx_pixel_put(&(p->screen), pixel, (HEIGHT - p->ray.height) / 2 + i, \
-		ft_color_texture(p, *texture, (t_ivector){text.x, text.y}, false));
+		ft_color_texture(p, *texture, (t_ivector){text.x, text.y}, !p->sprites.easter_done));
 		i++;
 	}
 }

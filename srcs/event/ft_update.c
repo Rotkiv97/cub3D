@@ -6,19 +6,11 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 18:15:28 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/08 18:00:04 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:09:45 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-long int	ft_return_time(void)
-{
-	struct timeval		tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
 
 void	ft_mouse_visual(t_program *program, int frame)
 {
@@ -26,7 +18,6 @@ void	ft_mouse_visual(t_program *program, int frame)
 
 	if (program->pause == 0)
 	{
-		//mlx_mouse_hide(program->mlx, program->window);
 		mlx_mouse_get_pos(program->mlx, program->window, \
 		&new_mouse.x, &new_mouse.y);
 		if (program->mouse.x < new_mouse.x)
@@ -43,8 +34,6 @@ void	ft_mouse_visual(t_program *program, int frame)
 		}
 	}
 }
-
-
 
 t_dvector	ft_set_new_dir(t_program *p)
 {
@@ -92,19 +81,26 @@ void	ft_move(t_program *p)
 	t_dvector	mov_dir;
 	t_ivector	n;
 	t_ivector	pos;
+	char		*walls;
 
+	walls = "1DLP";
 	pos.x = (int)p->player.pos.x;
 	pos.y = (int)p->player.pos.y;
 	mov_dir = ft_set_new_dir(p);
 	n.x = (int)(p->player.pos.x + mov_dir.x * (double)MOVESPEED);
 	n.y = (int)(p->player.pos.y + mov_dir.y * (double)MOVESPEED);
 	(void)pos;
-	if (ft_in_set(p->map[n.y][n.x], "1D"))
+	if (ft_in_set(p->map[n.y][n.x], walls))
 	{
-		if (!ft_in_set(p->map[pos.y][n.x], "1D"))
+		if (!ft_in_set(p->map[pos.y][n.x], walls))
 			p->player.pos.x = p->player.pos.x + mov_dir.x * (double)MOVESPEED;
-		else if (!ft_in_set(p->map[n.y][pos.x], "1D"))
+		else if (!ft_in_set(p->map[n.y][pos.x], walls))
 			p->player.pos.y = p->player.pos.y + mov_dir.y * (double)MOVESPEED;
+	}
+	else if (p->map[n.y][n.x] == 'U')
+	{
+		sleep(1);
+		ft_exit("congratulazioni sei tornato a casa");
 	}
 	else
 	{
@@ -148,6 +144,8 @@ int	ft_update(void *p)
 	ft_mouse_visual(program, i++);
 	if (program->player.moving)
 		ft_move(program);
+	if (program->player.interact)
+		ft_change_portal(program);
 	ft_ray_casting(program);
 	end = ft_return_time();
 	ft_fps(program, start, end);

@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:47:43 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/28 19:52:42 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:10:11 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_dvector	ft_rotate_vector(t_dvector vector, double angle, bool clockwise)
 {
-	double			rad;
+	double		rad;
 	t_dvector	new_dir;
 
 	rad = ((double)PI / (double)180) * angle;

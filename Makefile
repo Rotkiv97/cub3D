@@ -3,7 +3,7 @@ NAME = cub3D
 
 # Source directories
 STCDIR = srcs
-SRC =		srcs/main.c \
+SRCS =		srcs/main.c \
 			srcs/init.c \
 			srcs/map_checker.c \
 			srcs/ray_init.c \
@@ -17,14 +17,14 @@ SRC =		srcs/main.c \
 			srcs/event/input_release.c \
 			srcs/event/ft_update.c \
 			srcs/event/easter_egg.c \
-
-SRC_GNL =	srcs/get_next_line/get_next_line_bonus.c \
-			srcs/get_next_line/get_next_line_utils_bonus.c
-
-SRC_UTILS =	srcs/utils/utils1.c \
+			srcs/get_next_line/get_next_line_bonus.c \
+			srcs/get_next_line/get_next_line_utils_bonus.c \
+			srcs/utils/utils1.c \
 			srcs/utils/utils_print.c \
 			srcs/utils/utils_free.c \
 			srcs/utils/utils_vector.c
+
+OBJS	=	$(SRCS:.c=.o)
 
 # Variables
 CC = gcc
@@ -34,21 +34,25 @@ CFLAGS = -Wall -Werror -Wextra -g
 # Include directories
 INCDIR := include
 INCLUDES := -I$(INCDIR)
+HEADER := $(INCDIR)/cub3D.h
 
 # Libraries
 LINKS = minilibx-linux/libmlx.a libft/libft.a -lX11 -lXext -lm 
 
 all: $(NAME)
 
-$(NAME): $(SRC) $(SRC_GNL) $(SRC_UTILS)
+$(NAME): $(OBJS)
 	@ make bonus -s -C libft/
-	@ $(CC) $(CFLAGS) $(INCLUDES) $(SRC) $(SRC_GNL) $(SRC_UTILS) $(LINKS) -o $(NAME)
+	@ $(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LINKS) -o $(NAME)
+
+%.o: %.c $(HEADER)
+	@ $(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	@ make clean -s -C libft/
-	@ $(RM)
+	@ $(RM) $(OBJS)
 
-fclean:
+fclean: clean
 	@ make fclean -s -C libft/
 	@ $(RM) $(NAME)
 

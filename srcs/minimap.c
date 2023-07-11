@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:49:58 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 20:13:28 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 12:16:07 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,79 +62,70 @@ void	ft_draw_arrow(t_program *p, t_ivector position, t_ivector size)
 	ft_fill_texture(p, position, size, p->sprites.arrow[texture]);
 }
 
-void	ft_draw_walls_minimap(t_program *p, t_ivector cell_size, int n_cell)
+unsigned int	ft_color_square(t_program *p, t_ivector iterator, int mat_len)
 {
-	int			i;
-	int			j;
-	t_ivector	n_position;
-	t_ivector	iterator;
-	int			mat_len;
+	unsigned int	color;
 
-	mat_len = ft_mat_len(p->map);
-	n_position = (t_ivector){(int)p->player.pos.x, (int)p->player.pos.y};
-	iterator = (t_ivector){n_position.x - n_cell / 2, \
-	n_position.y - n_cell / 2};
-	i = 0;
-	j = 0;
-	while (i < n_cell)
-	{
-		j = 0;
-		while (j < n_cell)
-		{
-			if ((iterator.y < 0 || iterator.y > mat_len - 1) || (iterator.x < 0 || \
-			iterator.x > (int)ft_strlen(p->map[iterator.y]) - 1) || \
-			(ft_in_set(p->map[iterator.y][iterator.x], "1\n\t\0 ")))
-				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0x006600);
-			else if(ft_in_set(p->map[iterator.y][iterator.x], "0NWES"))
-				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0);
-			else if(ft_in_set(p->map[iterator.y][iterator.x], "D"))
-				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0xFF0000);
-			else if(ft_in_set(p->map[iterator.y][iterator.x], "O"))
-				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0x00FF00);
-			else if(ft_in_set(p->map[iterator.y][iterator.x], "L"))
-				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0xFFFF33);
-			else if(ft_in_set(p->map[iterator.y][iterator.x], "P"))
-				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0x0000FF);
-			else if(ft_in_set(p->map[iterator.y][iterator.x], "U"))
-				ft_fill_cell_minimap(p, (t_ivector){j * cell_size.x, i * cell_size.y}, cell_size, 0xFFFFFF);
-			if (iterator.x == (int)p->player.pos.x && iterator.y == (int)p->player.pos.y)
-				ft_draw_arrow(p, (t_ivector){j * (int)((double)cell_size.x ), i * (int)((double)cell_size.y)}, (t_ivector){cell_size.x, cell_size.y});
-			iterator.x++;
-			j++;
-		}
-		iterator.x = n_position.x - n_cell / 2;
-		iterator.y++;
-		i++;
-	}
+	color = 0;
+	if ((iterator.y < 0 || iterator.y > mat_len - 1) || (iterator.x < 0 || \
+		iterator.x > (int)ft_strlen(p->map[iterator.y]) - 1) || \
+		(ft_in_set(p->map[iterator.y][iterator.x], "1\n\t\0 ")))
+		color = 0x006600;
+	else if (ft_in_set(p->map[iterator.y][iterator.x], "0NWES"))
+		color = 0;
+	else if (ft_in_set(p->map[iterator.y][iterator.x], "D"))
+		color = 0xFF0000;
+	else if (ft_in_set(p->map[iterator.y][iterator.x], "O"))
+		color = 0x00FF00;
+	else if (ft_in_set(p->map[iterator.y][iterator.x], "L"))
+		color = 0xFFFF33;
+	else if (ft_in_set(p->map[iterator.y][iterator.x], "P"))
+		color = 0x0000FF;
+	else if (ft_in_set(p->map[iterator.y][iterator.x], "U"))
+		color = 0xFFFFFF;
+	return (color);
 }
 
-void	ft_draw_border(t_program *p, int sizex, int sizey)
+void	ft_cicle_squares_minimap(t_program *p, int n_cell, \
+t_ivector iterator, t_ivector cell_size)
 {
-	int	x;
-	int	y;
+	unsigned int	color;
+	t_ivector		i;
+	int				mat_len;
 
-	x = 0;
-	y = 0;
-	while (x <= sizex)
+	mat_len = ft_mat_len(p->map);
+	i = (t_ivector){0, 0};
+	while (i.x < n_cell)
 	{
-		y = 0;
-		while (y <= sizey)
+		i.y = 0;
+		while (i.y < n_cell)
 		{
-			if (x == 0 || y == 0 || x == sizex || y == sizey)
-				my_mlx_pixel_put(&(p->screen), x, y, 0);
-			y++;
+			color = ft_color_square(p, iterator, mat_len);
+			ft_fill_cell_minimap(p, (t_ivector){i.y * cell_size.x, \
+			i.x * cell_size.y}, cell_size, color);
+			if (iterator.x == (int)p->player.pos.x && \
+			iterator.y == (int)p->player.pos.y)
+				ft_draw_arrow(p, (t_ivector){i.y * cell_size.x, i.x * \
+			cell_size.y}, (t_ivector){cell_size.x, cell_size.y});
+			iterator.x++;
+			i.y++;
 		}
-		x++;
+		iterator.x = (int)p->player.pos.x - n_cell / 2;
+		iterator.y++;
+		i.x++;
 	}
 }
 
 void	ft_draw_minimap(t_program *p)
 {
 	t_ivector	cell_size;
+	t_ivector	iterator;
 	int			n_cell;
 
 	n_cell = 11;
 	cell_size.x = WIDTH / 7 / n_cell;
 	cell_size.y = HEIGHT / 7 / n_cell;
-	ft_draw_walls_minimap(p, cell_size, n_cell);
+	iterator = (t_ivector){(int)p->player.pos.x - n_cell / 2, \
+	(int)p->player.pos.y - n_cell / 2};
+	ft_cicle_squares_minimap(p, n_cell, iterator, cell_size);
 }

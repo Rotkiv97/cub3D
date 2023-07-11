@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:10:03 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/11 15:42:06 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:06:14 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_free_mat(char **mat)
 
 void	ft_exit(char *error, t_program *p)
 {
-	printf("\033[31m%s\033[0m\n", error);
+	ft_putstrerr(error);
 	if (p->map)
 		ft_free_mat(p->map);
 	if (p->file)

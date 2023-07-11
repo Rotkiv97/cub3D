@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/11 15:36:09 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:44:03 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,6 +232,7 @@ void			ft_putstrerr(char *s);
 void			ft_print_vector(void *v, bool doubl);
 void			ft_print_mat(char **mat, bool new_line);
 void			ft_fps(t_program *p, time_t start, time_t end);
+void	ft_trama(void);
 
 /*	project_path/srcs/utils/utils_free.c	*/
 

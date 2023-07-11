@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:03:47 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/11 15:17:13 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:08:52 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_check_map_last_02(t_program *p, char **map, int size, int x)
 			while (map[size - 1][x])
 			{
 				if (!ft_in_set(map[size - 1][x], str))
-					ft_exit("errore nella ultima stringa", p);
+					ft_exit("Check lower edges of the map", p);
 				x++;
 			}
 		}
@@ -65,7 +65,7 @@ void	ft_check_map_last(char **map, t_program *p)
 		size++;
 	while (map[0][++x])
 		if (!ft_in_set(map[0][x], str))
-			ft_exit("errore nella prima stringa", p);
+			ft_exit("Check upper edges of the map", p);
 	ft_check_map_last_02(p, map, size, x);
 }
 
@@ -76,8 +76,9 @@ void	ft_map_checker(t_program *p, char *file_path)
 	p->file = ft_copy_file(file_path);
 	if (!(p->file))
 	{
-		ft_putstrerr("Error\nCannot open file :");
-		ft_putstrerr(file_path);
+		ft_putstrerr("Cannot open file :");
+		ft_putstr_fd(file_path, STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
 		exit(2);
 	}
 	ft_check_map_file(p);

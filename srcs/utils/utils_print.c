@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:43:18 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/06/28 20:00:02 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:43:40 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 void	ft_putstrerr(char *s)
 {
+	ft_putstr_fd("\033[31m", STDERR_FILENO);
 	ft_putstr_fd("Error\n", STDERR_FILENO);
 	if (s)
 	{
 		ft_putstr_fd(s, STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
 	}
+	ft_putstr_fd("\033[0m", STDERR_FILENO);
 }
 
 void	ft_print_vector(void *v, bool doubl)
@@ -66,4 +68,12 @@ void	ft_fps(t_program *p, time_t start, time_t end)
 	mlx_string_put(p->mlx, p->window, WIDTH / 2, HEIGHT / 50, 0xFF00000, tmp);
 	free(itoa);
 	free(tmp);
+}
+
+void	ft_trama(void)
+{
+	printf("\033[32mDopo una estenuante ricerca per la via di casa,\n");
+	printf("sei riuscuito ad uscire dal labirinto, e hai torvato \n");
+	printf("il portale per tornare a casa,\n");
+	printf("cogratulazioni la prossima volta ricordati il cellulare\033[0m\n");
 }

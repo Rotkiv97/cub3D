@@ -1,0 +1,13 @@
+NO ./textures/maze/maze.xpm
+SO ./textures/maze/maze1.xpm
+WE ./textures/maze/maze2.xpm
+EA ./textures/maze/maze3.xpm
+
+F 25,12,13
+C 9,11,40
+
+11111111
+11111111
+11111N11
+11111111
+10000001

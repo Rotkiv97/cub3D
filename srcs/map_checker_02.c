@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:14:49 by vguidoni          #+#    #+#             */
-/*   Updated: 2023/07/11 14:47:49 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:14:05 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 void	ft_flag(int flag, t_program *p)
 {
 	if (flag == 0)
-		ft_exit("sei un troglodita metti il punto o di inizio", p);
+		ft_exit("No player position", p);
 	else if (flag > 1)
-		ft_exit("allora non ci intendiamo metti solo 1 span, e impiccati", p);
+		ft_exit("Too many player spawn points", p);
 }
 
 void	ft_check_char(t_program *p)
@@ -44,7 +44,7 @@ void	ft_check_char(t_program *p)
 				x++;
 			}
 			else
-				ft_exit("cogline Metti i caratteri giusti", p);
+				ft_exit("Invalid chars", p);
 		}
 	}
 	ft_flag(flag, p);
@@ -63,12 +63,12 @@ void	ft_check_walls(t_program *p)
 		if (tmp[0] != '1')
 		{
 			free(tmp);
-			ft_exit("invalid map asse y sinistra", p);
+			ft_exit("Invalid lateral edges", p);
 		}
 		else if (tmp[ft_strlen(tmp) - 1] != '1')
 		{
 			free(tmp);
-			ft_exit("invalid map asse y defatra", p);
+			ft_exit("Invalid lateral edges", p);
 		}
 		free(tmp);
 		y++;
@@ -81,15 +81,15 @@ controlli della mappa e dei suoi caratteri */
 void	ft_check_map_last_01(t_program *p, char **map, int x, int y)
 {
 	if (map[y][x + 1] == ' ' || map[y][x - 1] == ' ')
-		ft_exit("invalid map bordi chars", p);
+		ft_exit("Invalid inner edges", p);
 	else if (map[y - 1][x] == ' ' || map[y - 1][x] == '\n')
-		ft_exit("invalid map bordi superiori chars", p);
+		ft_exit("Invalid inner edges", p);
 	else if (!map[y - 1][x] && ft_strlen(map[y - 1]) < ft_strlen(map[y]))
-		ft_exit("invalid map bordi superiori chars", p);
+		ft_exit("Invalid inner edges", p);
 	else if (map[y + 1][x] == ' ')
-		ft_exit("invalid map bordi inferiori chars", p);
+		ft_exit("Invalid inner edges", p);
 	else if (map[y + 1][x] == '\n')
-		ft_exit("invalid map bordi inferiori chars", p);
+		ft_exit("Invalid inner edges", p);
 	else if (!map[y + 1][x] && ft_strlen(map[y]) > ft_strlen(map[y + 1]))
-		ft_exit("invalid map bordi inferiori chars", p);
+		ft_exit("Invalid inner edges", p);
 }

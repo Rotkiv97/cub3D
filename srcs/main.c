@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:21:14 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 21:01:57 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 15:56:49 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,33 @@ void	ft_player_init(t_program *p)
 	ft_player_position(p);
 }
 
+void	ft_check_av(char *s)
+{
+	char	*trim;
+
+	trim = ft_strtrim(s, " \t");
+	if (ft_strlen(trim) <= 4)
+	{
+		ft_putstrerr("Invalid argument: string too short");
+		free(trim);
+		exit(3);
+	}
+	if (ft_strncmp(".cub", &trim[ft_strlen(trim) - 4], 5))
+	{
+		ft_putstrerr("Invalid argument: map files must end with .cub");
+		free(trim);
+		exit(4);
+	}
+	free(trim);
+}
+
 int	main(int ac, char **av)
 {
 	t_program		p;
 
 	if (ac == 2)
 	{
+		ft_check_av(av[1]);
 		ft_program_init(&p, av[1]);
 		ft_player_init(&p);
 		mlx_do_key_autorepeatoff(p.mlx);

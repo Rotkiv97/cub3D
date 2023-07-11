@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checker_01.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vguidoni <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:46:26 by vguidoni          #+#    #+#             */
-/*   Updated: 2023/07/11 11:46:29 by vguidoni         ###   ########.fr       */
+/*   Updated: 2023/07/11 15:15:19 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_checker_map_01(t_program *p, int y, int k)
 	while (p->file[y + k])
 	{
 		if (ft_strncmp(p->file[y + k], "\n", 2))
-			ft_exit("troclodita la mappa e' l'ultimo argomento");
+			ft_exit("troclodita la mappa e' l'ultimo argomento", p);
 		y++;
 	}
 }
@@ -77,5 +77,5 @@ void	ft_check_map_file(t_program *p)
 	}
 	p->map = (char **)malloc(sizeof(char *) * (k + 1));
 	k = 0;
-	ft_checker_map_01(p, y , k);
+	ft_checker_map_01(p, y, k);
 }

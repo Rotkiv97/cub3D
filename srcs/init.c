@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/11 14:05:51 by dcolucci          #+#    #+#             */
+/*   Updated: 2023/07/11 15:02:03 by dcolucci         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 t_img	ft_open_xpm(t_program *p, char *path)
@@ -30,7 +42,7 @@ t_img *animations)
 		free(tmp);
 		free(full_path);
 		if (!animations[i].img)
-			ft_exit(" : animation not found!");
+			ft_exit(" : animation not found!", p);
 		i++;
 	}
 }
@@ -57,7 +69,7 @@ void	ft_img_init(t_program *p)
 	p->screen.addr = mlx_get_data_addr(p->screen.img, \
 	&p->screen.bits_per_pixel, &p->screen.line_length, &p->screen.endian);
 	if (!p->screen.img)
-		ft_exit("Cannot open window");
+		ft_exit("Cannot open window", p);
 	ft_animation_init(p);
 	p->sprites.north.img = 0;
 	p->sprites.south.img = 0;
@@ -69,16 +81,16 @@ void	ft_img_init(t_program *p)
 
 void	ft_program_init(t_program *p, char *file_path)
 {
+	ft_map_checker(p, file_path);
 	p->mlx = mlx_init();
 	if (!p->mlx)
-		ft_exit("Error \nCannot init program");
-	ft_map_checker(p, file_path);
-	ft_img_init(p);
-	ft_read_file(p);
+		ft_exit("Error \nCannot init program", p);
 	p->window = mlx_new_window(p->mlx, WIDTH, HEIGHT, "cub3D");
 	mlx_mouse_get_pos(p->mlx, p->window, &p->mouse.x, &p->mouse.y);
 	p->sprites.easter_done = false;
 	p->pause = 0;
 	p->frame = 0;
 	p->fov = FOV;
+	ft_img_init(p);
+	ft_read_file(p);
 }

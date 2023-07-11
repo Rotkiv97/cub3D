@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:19:48 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/11 12:45:28 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 15:36:09 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define PI 3.1415926535
 
 # define FOV 0.66
-# define WIDTH 1920
+# define WIDTH 1920	
 # define HEIGHT 1080
 
 # define MOVESPEED 0.15
@@ -64,8 +64,7 @@ typedef struct s_dvector
 	double	y;
 }t_dvector;
 
-
-typedef struct	s_img{
+typedef struct s_img{
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
@@ -119,12 +118,11 @@ typedef struct s_rayinfo
 	double		perp_distance;
 	t_ivector	step;
 	t_ivector	map_check;
-	t_dvector	length1D;
+	t_dvector	length1d;
 	t_dvector	ray_dir;
 	t_dvector	ray_start;
 	t_dvector	scaling_factor;
 }t_rayinfo;
-
 
 typedef struct s_program
 {
@@ -146,87 +144,100 @@ typedef struct s_program
 
 /*	init.c	*/
 
-void	ft_program_init(t_program *p, char *file_path);
+void			ft_program_init(t_program *p, char *file_path);
 
 /*	minimap.c	*/
 
-void		ft_fill_cell_minimap(t_program *p, t_ivector position, t_ivector cell_size, int color);
-void		ft_draw_minimap(t_program *p);
+void			ft_fill_cell_minimap(t_program *p, t_ivector position, \
+t_ivector cell_size, int color);
+void			ft_draw_minimap(t_program *p);
 
 /*	draw_on_image.c	*/
 
-void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void		my_mlx_pixel_put_transp(t_img *img, int x, int y, int color);
-void		ft_draw_animation(t_program *p);
-void		ft_fill_texture(t_program *p, t_ivector position, t_ivector size, t_img texture);
-void		ft_black_screen(t_program *p);
-void		ft_background(t_program *p, int pixel);
-void		ft_draw_vertical_line(t_program *p, double distance, int pixel, int side_coll);
+void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void			my_mlx_pixel_put_transp(t_img *img, int x, int y, int color);
+void			ft_draw_animation(t_program *p);
+void			ft_fill_texture(t_program *p, t_ivector position, \
+t_ivector size, t_img texture);
+void			ft_black_screen(t_program *p);
+void			ft_background(t_program *p, int pixel);
+void			ft_draw_vertical_line(t_program *p, double distance, \
+int pixel, int side_coll);
 
 /*	texture.c	*/
 
-void		ft_draw_texture(t_program *p, int pixel);
+void			ft_draw_texture(t_program *p, int pixel);
 
-/*	project_path/map_checker.c	*/
+/*	project_path/map_checkerxxx.c	*/
 
-void		ft_map_checker(t_program *p, char *file_path);
+void			ft_check_walls(t_program *p);
+void			ft_check_char(t_program *p);
+void			ft_check_map_file(t_program *p);
+char			**ft_copy_file(char *file_path);
+void			ft_check_map_last(char **map, t_program *p);
+void			ft_checker_map_01(t_program *p, int y, int k);
+void			ft_check_map_last_01(t_program *p, char **map, int x, int y);
+void			ft_check_map_last_02(t_program *p, char **map, int size, int x);
+void			ft_map_checker(t_program *p, char *file_path);
 
 /*	project_path/event/ft_update.c	*/
 
-long int	ft_return_time(void);
-int			ft_update(void *program);
+long int		ft_return_time(void);
+int				ft_update(void *program);
 
 /*	project_path/event/key_hook.c	*/
 
-bool		ft_check_movement(t_program *p);
-void		ft_move(t_program *p);
-void		ft_move_player(t_program *p, int key);
-int			ft_input_release(int key, void *program);
-int			ft_input(int key, void *program);
+bool			ft_check_movement(t_program *p);
+void			ft_move(t_program *p);
+void			ft_move_player(t_program *p, int key);
+int				ft_input_release(int key, void *program);
+int				ft_input(int key, void *program);
 
 /*	srcs/event/easter_egg	*/
 
-void		ft_change_portal(t_program *p);
+void			ft_change_portal(t_program *p);
 
 /*	init_ray.c	*/
 
-void		ft_init_ray(t_program *p, int pixel);
+void			ft_init_ray(t_program *p, int pixel);
 
 /*	project_path/srcs/ray_casting_dda.c	*/
 
-unsigned int	ft_color_texture(t_program *p, t_img texture, t_ivector pixels, bool darker);
+unsigned int	ft_color_texture(t_program *p, t_img texture, \
+t_ivector pixels, bool darker);
 double			ft_distance_collision(t_program *p, t_dvector ray_dir);
 void			ft_ray_casting(t_program *p);
 
 /*	srcs/read_file.c	*/
 
-void		ft_read_file(t_program *p);
+void			ft_read_file(t_program *p);
 
 /*	project_path/srcs/utils/utils_vector.c	*/
 
-t_dvector	ft_rotate_vector(t_dvector vector, double angle, bool clockwise);
-void		ft_rotate_visual(t_program *p, double angle, bool clockwise);
+t_dvector		ft_rotate_vector(t_dvector vector, double angle, \
+bool clockwise);
+void			ft_rotate_visual(t_program *p, double angle, bool clockwise);
 
 /*	project_path/srcs/utils/utils1.c	*/
 
-int			ft_mat_len(char **mat);
-char		**ft_copy_mat(char **mat);
-char		*ft_strchr_set(char *str, char *set);
-int			ft_in_set(char c, char *str);
-int			ft_close(t_program *p);
+int				ft_mat_len(char **mat);
+char			**ft_copy_mat(char **mat);
+char			*ft_strchr_set(char *str, char *set);
+int				ft_in_set(char c, char *str);
+int				ft_close(t_program *p);
 
 /*	project_path/srcs/utils/utils_print.c	*/
 
-void		ft_putstrerr(char *s);
-void		ft_print_vector(void *v, bool doubl);
-void		ft_print_mat(char **mat, bool new_line);
-void		ft_fps(t_program *p, time_t start, time_t end);
+void			ft_putstrerr(char *s);
+void			ft_print_vector(void *v, bool doubl);
+void			ft_print_mat(char **mat, bool new_line);
+void			ft_fps(t_program *p, time_t start, time_t end);
 
 /*	project_path/srcs/utils/utils_free.c	*/
 
-void		ft_free_mat(char **mat);
-void		ft_free_program(t_program *p);
-void		ft_free_exit(char *error, char *str);
-void		ft_exit(char *error);
+void			ft_free_mat(char **mat);
+void			ft_free_program(t_program *p);
+void			ft_free_exit(char *err, char *p);
+void			ft_exit(char *error, t_program *p);
 
 #endif

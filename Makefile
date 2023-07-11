@@ -6,6 +6,8 @@ STCDIR = srcs
 SRCS =		srcs/main.c \
 			srcs/init.c \
 			srcs/map_checker.c \
+			srcs/map_checker_01.c \
+			srcs/map_checker_02.c \
 			srcs/ray_init.c \
 			srcs/ray_casting_dda.c \
 			srcs/minimap.c \
@@ -62,7 +64,7 @@ exe: all
 	@ ./$(NAME) ./maps/maze.cub
 
 valgrind: all
-	@ valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) ./maps/map1.cub
+	@ valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) ./maps/maze.cub
 
 norminette:
 	@ norminette ./srcs

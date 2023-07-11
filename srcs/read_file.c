@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 19:24:52 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 18:19:27 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 15:12:59 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ void	ft_open_texture(t_program *p, char *texture, char c)
 	img.img = mlx_xpm_file_to_image(p->mlx, trim, &img.width, &img.height);
 	free(trim);
 	if (!img.img)
-		ft_exit("Invalid texture");
+	{
+		ft_free_program(p);
+		ft_putstrerr("Invalid Texture!");
+		exit(1);
+	}
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, \
 	&img.line_length, &img.endian);
 	if (c == 'N')

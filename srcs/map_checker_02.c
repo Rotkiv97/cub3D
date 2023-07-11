@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_checker_map_02.c                                :+:      :+:    :+:   */
+/*   map_checker_02.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vguidoni <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:14:49 by vguidoni          #+#    #+#             */
-/*   Updated: 2023/07/11 12:14:52 by vguidoni         ###   ########.fr       */
+/*   Updated: 2023/07/11 14:47:49 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 /* controlliamo i caratteri */
 
-void	ft_flag(int flag)
+void	ft_flag(int flag, t_program *p)
 {
 	if (flag == 0)
-		ft_exit("sei un troglodita metti il punto o di inizio");
+		ft_exit("sei un troglodita metti il punto o di inizio", p);
 	else if (flag > 1)
-		ft_exit("allora non ci intendiamo metti solo 1 span, e impiccati");
+		ft_exit("allora non ci intendiamo metti solo 1 span, e impiccati", p);
 }
 
 void	ft_check_char(t_program *p)
@@ -44,26 +44,32 @@ void	ft_check_char(t_program *p)
 				x++;
 			}
 			else
-				ft_exit("cogline Metti i caratteri giusti");
+				ft_exit("cogline Metti i caratteri giusti", p);
 		}
 	}
-	ft_flag(flag);
+	ft_flag(flag, p);
 }
 
 /* controllo del primo e ultimo carattere della mappa che sia 1*/
-void	ft_check_walls(char **map)
+void	ft_check_walls(t_program *p)
 {
 	int		y;
 	char	*tmp;
 
 	y = 0; 
-	while (map[y])
+	while (p->map[y])
 	{
-		tmp = ft_strtrim(map[y], " \t\n");
+		tmp = ft_strtrim(p->map[y], " \t\n");
 		if (tmp[0] != '1')
-			ft_free_exit("invalid map asse y sinistra", tmp);
+		{
+			free(tmp);
+			ft_exit("invalid map asse y sinistra", p);
+		}
 		else if (tmp[ft_strlen(tmp) - 1] != '1')
-			ft_free_exit("invalid map asse y defatra", tmp);
+		{
+			free(tmp);
+			ft_exit("invalid map asse y defatra", p);
+		}
 		free(tmp);
 		y++;
 	}
@@ -72,20 +78,18 @@ void	ft_check_walls(char **map)
 /*  da qui in poi si faranno tutti i 
 controlli della mappa e dei suoi caratteri */
 
-
-
-void	ft_check_map_last_01(char **map, int x, int y)
+void	ft_check_map_last_01(t_program *p, char **map, int x, int y)
 {
 	if (map[y][x + 1] == ' ' || map[y][x - 1] == ' ')
-		ft_exit("invalid map bordi chars");
+		ft_exit("invalid map bordi chars", p);
 	else if (map[y - 1][x] == ' ' || map[y - 1][x] == '\n')
-		ft_exit("invalid map bordi superiori chars");
+		ft_exit("invalid map bordi superiori chars", p);
 	else if (!map[y - 1][x] && ft_strlen(map[y - 1]) < ft_strlen(map[y]))
-		ft_exit("invalid map bordi superiori chars");
+		ft_exit("invalid map bordi superiori chars", p);
 	else if (map[y + 1][x] == ' ')
-		ft_exit("invalid map bordi inferiori chars");
+		ft_exit("invalid map bordi inferiori chars", p);
 	else if (map[y + 1][x] == '\n')
-		ft_exit("invalid map bordi inferiori chars");
+		ft_exit("invalid map bordi inferiori chars", p);
 	else if (!map[y + 1][x] && ft_strlen(map[y]) > ft_strlen(map[y + 1]))
-		ft_exit("invalid map bordi inferiori chars");
+		ft_exit("invalid map bordi inferiori chars", p);
 }

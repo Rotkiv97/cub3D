@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:25 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 20:19:24 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 15:32:48 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,19 @@ bool	ft_check_collision(t_program *p)
 
 void	ft_update_ray_length(t_program *p, t_rayinfo *ray)
 {
-	if (ray->length1D.x < ray->length1D.y)
+	if (ray->length1d.x < ray->length1d.y)
 	{
 		p->ray.side = 0;
 		ray->map_check.x += ray->step.x;
-		ray->real_distance = ray->length1D.x;
-		ray->length1D.x += ray->scaling_factor.x;
+		ray->real_distance = ray->length1d.x;
+		ray->length1d.x += ray->scaling_factor.x;
 	}
 	else
 	{
 		p->ray.side = 1;
 		ray->map_check.y += ray->step.y;
-		ray->real_distance = ray->length1D.y;
-		ray->length1D.y += ray->scaling_factor.y;
+		ray->real_distance = ray->length1d.y;
+		ray->length1d.y += ray->scaling_factor.y;
 	}
 }
 

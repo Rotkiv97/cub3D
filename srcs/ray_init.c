@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:25:50 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/09 17:36:35 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 15:32:29 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,25 @@ void	ft_ray_step_length(t_rayinfo *ray)
 	if (ray->ray_dir.x < 0)
 	{
 		ray->step.x = -1;
-		ray->length1D.x = (ray->ray_start.x - (double)(ray->map_check.x)) * \
+		ray->length1d.x = (ray->ray_start.x - (double)(ray->map_check.x)) * \
 		ray->scaling_factor.x;
 	}
 	else
 	{
 		ray->step.x = 1;
-		ray->length1D.x = ((double)(ray->map_check.x + 1) - ray->ray_start.x) * \
+		ray->length1d.x = ((double)(ray->map_check.x + 1) - ray->ray_start.x) * \
 		ray->scaling_factor.x;
 	}
 	if (ray->ray_dir.y < 0)
 	{
 		ray->step.y = -1;
-		ray->length1D.y = (ray->ray_start.y - (double)(ray->map_check.y)) * \
+		ray->length1d.y = (ray->ray_start.y - (double)(ray->map_check.y)) * \
 		ray->scaling_factor.y;
 	}
 	else
 	{
 		ray->step.y = 1;
-		ray->length1D.y = ((double)(ray->map_check.y + 1) - ray->ray_start.y) * \
+		ray->length1d.y = ((double)(ray->map_check.y + 1) - ray->ray_start.y) * \
 		ray->scaling_factor.y;
 	}
 }

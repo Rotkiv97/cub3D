@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:10:03 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/09 20:56:08 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 15:03:16 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,45 @@ void	ft_free_exit(char *error, char *str)
 	exit(0);
 }
 
-void	ft_exit(char *error)
+void	ft_exit(char *error, t_program *p)
 {
 	printf("\033[31m%s\033[0m\n", error);
+	if(p->map)
+		ft_free_mat(p->map);
+	if (p->file)
+		ft_free_mat(p->file);
 	exit(0);
+}
+
+void	ft_destroy_animations(t_program *p, int n, t_img *animation)
+{
+	int	i;
+
+	i = 0;
+	if (!animation)
+		return ;
+	while (i < n)
+	{
+		if (animation[i].img)
+			mlx_destroy_image(p->mlx, animation[i].img);
+		i++;
+	}
 }
 
 void	ft_destroy_sprites(t_program *p)
 {
-	mlx_destroy_image(p->mlx, p->sprites.door.img);
-	mlx_destroy_image(p->mlx, p->sprites.east.img);
-	mlx_destroy_image(p->mlx, p->sprites.north.img);
-	mlx_destroy_image(p->mlx, p->sprites.south.img);
-	mlx_destroy_image(p->mlx, p->sprites.west.img);
+	ft_destroy_animations(p, 1, &p->sprites.east);
+	ft_destroy_animations(p, 1, &p->sprites.south);
+	ft_destroy_animations(p, 1, &p->sprites.north);
+	ft_destroy_animations(p, 1, &p->sprites.west);
+	ft_destroy_animations(p, 9, p->sprites.animations);
+	ft_destroy_animations(p, 4, p->sprites.interact);
+	ft_destroy_animations(p, 4, p->sprites.easter_egg);
+	ft_destroy_animations(p, 8, p->sprites.arrow);
+	ft_destroy_animations(p, 8, p->sprites.portal);
+	ft_destroy_animations(p, 1, &p->sprites.guide);
+	ft_destroy_animations(p, 1, &p->sprites.home);
+	ft_destroy_animations(p, 1, &p->sprites.door);
 }
 
 void	ft_free_program(t_program *p)

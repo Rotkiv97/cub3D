@@ -6,7 +6,7 @@
 /*   By: dcolucci <dcolucci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 18:15:28 by dcolucci          #+#    #+#             */
-/*   Updated: 2023/07/10 20:44:29 by dcolucci         ###   ########.fr       */
+/*   Updated: 2023/07/11 15:33:01 by dcolucci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ void	ft_move(t_program *p)
 	}
 	else if (p->map[n.y][n.x] == 'U')
 	{
-		sleep(1);
-		ft_exit("congratulazioni sei tornato a casa");
+		printf("bravo\n");
+		ft_close(p);
 	}
 	else
 	{

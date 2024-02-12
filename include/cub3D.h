@@ -27,8 +27,8 @@
 # define PI 3.1415926535
 
 # define FOV 0.66
-# define WIDTH 1920	
-# define HEIGHT 1080
+# define WIDTH 800	
+# define HEIGHT 600
 
 # define MOVESPEED 0.15
 # define ROTSPEED 1.5

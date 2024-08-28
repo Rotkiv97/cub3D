@@ -1,13 +1,22 @@
-# cub3D: My First RayCaster with miniLibX (42 school)
+# Cub3D
+
+![clip](./docs/clip/Cub3D.gif)
+
 
 ## Overview
 cub3D is a project inspired by the iconic Wolfenstein 3D game, aiming to implement a 3D graphical representation of a maze using ray-casting principles. Developed in C, it utilizes the miniLibX library for graphics rendering. The goal is to create an immersive first-person perspective experience where users navigate through a maze while interacting with different elements.
 
+# [Subject](./Cub3D.subject.pdf)
+
+
 ## Installation
 To run cub3D, follow these steps:
-1. Clone the repository: `git clone https://github.com/Colucci-Damiano/cub3D.git`
+1. Clone the repository: 
+```bash
+git clone https://github.com/Coluyanson/cub3D.git
+```
 2. Navigate to the project directory: `cd cub3D`
-3. Extract and compile with `make` the minilibx-linux.tgz archive
+3. Extract and compile with `make` the minilibx-linux.tgz archive, command to install minilibx library dependencies  `sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev`
 4. Compile the project using the provided Makefile: `make` in the root of the project
 5. Run the executable with a map file as an argument: `./cub3D <map-file.cub>`
 
@@ -21,6 +30,6 @@ Once installed, cub3D can be executed with the following command:
 
 Note: Ensure that your map file adheres to the specified format and contains valid scene information.
 
-### Contributors
--[dcolucci](https://github.com/Colucci-Damiano)
--[vguidoni](https://github.com/Rotkiv97)
+### Authors
+- [dcolucci](https://github.com/Coluyanson)
+- [vguidoni](https://github.com/Rotkiv97)

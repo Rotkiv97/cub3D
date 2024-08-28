@@ -13,7 +13,7 @@ cub3D is a project inspired by the iconic Wolfenstein 3D game, aiming to impleme
 To run cub3D, follow these steps:
 1. Clone the repository: 
 ```bash
-git clone https://github.com/Coluyanson/cub3D.git
+git clone https://github.com/Rotkiv97/cub3D.git
 ```
 2. Navigate to the project directory: `cd cub3D`
 3. Extract and compile with `make` the minilibx-linux.tgz archive, command to install minilibx library dependencies  `sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev`
